@@ -1,130 +1,160 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { client } from "@/lib/appwrite/client";
-import { Account } from "appwrite";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import {
+  confirmVerification,
+  sendVerificationEmail,
+} from "@/lib/appwrite/auth";
+import { Button, Alert, Spin } from "antd";
 import Link from "next/link";
-import { useAuth } from "@/context/AuthContext";
 
-export default function VerifyPage() {
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [message, setMessage] = useState(
-    "Please check your email for a verification link."
-  );
-  const [verified, setVerified] = useState(false);
+export default function VerifyEmailPage() {
   const searchParams = useSearchParams();
-  const router = useRouter();
-  const { user, checkAuthStatus } = useAuth();
+  const [verificationStatus, setVerificationStatus] = useState<
+    "loading" | "success" | "error" | "idle"
+  >("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isResending, setIsResending] = useState(false);
+
+  const userId = searchParams?.get("userId");
+  console.log("userId", userId);
+  const secret = searchParams?.get("secret");
+  console.log("secret", secret);
 
   useEffect(() => {
-    const userId = searchParams.get("userId");
-    const secret = searchParams.get("secret");
-
-    // If URL has verification parameters, process verification
+    // Check if we have the required params for verification
     if (userId && secret) {
-      const verifyEmail = async () => {
-        setIsVerifying(true);
-        try {
-          const account = new Account(client);
-          await account.updateVerification(userId, secret);
-
-          setVerified(true);
-          setMessage("Your email has been verified successfully!");
-
-          // Refresh auth status
-          await checkAuthStatus();
-
-          // Redirect to registration page after 2 seconds
-          setTimeout(() => {
-            router.push("/registration");
-          }, 2000);
-        } catch (err: unknown) {
-          if (err instanceof Error) {
-            console.error("Verification failed:", err);
-            setMessage(`Verification failed: ${err.message}`);
-          }
-        } finally {
-          setIsVerifying(false);
-        }
-      };
-
-      verifyEmail();
+      verifyEmail(userId, secret);
     }
-  }, [searchParams, router, checkAuthStatus]);
+  }, [userId, secret]);
 
-  // If not authenticated, prompt to log in
-  useEffect(() => {
-    if (!user && !isVerifying) {
-      setMessage("Please log in to verify your account.");
-    }
-  }, [user, isVerifying]);
+  const verifyEmail = async (userId: string, secret: string) => {
+    setVerificationStatus("loading");
 
-  // If no verification parameters yet, show instructions
-  const sendVerificationEmail = async () => {
-    if (!user) return;
-
-    setIsVerifying(true);
     try {
-      const account = new Account(client);
-      await account.createVerification(
-        `${window.location.origin}/signup/verify`
-      );
-      setMessage("Verification email sent! Please check your inbox.");
-    } catch (err: unknown) {
-      console.error("Failed to send verification email:", err);
-      setMessage(
-        `Failed to send verification email: ${
-          err instanceof Error ? err.message : "Unknown error"
-        }`
-      );
-    } finally {
-      setIsVerifying(false);
+      await confirmVerification(userId, secret);
+      setVerificationStatus("success");
+    } catch (error: unknown) {
+      setVerificationStatus("error");
+      if (error instanceof Error) {
+        setErrorMessage(
+          error.message || "Failed to verify email. Please try again."
+        );
+        console.error("Email verification error:", error);
+      } else {
+        setErrorMessage("An unknown error occurred. Please try again.");
+        console.error("Unknown error:", error);
+      }
+    }
+  };
+
+  const handleResendEmail = async () => {
+    setIsResending(true);
+
+    try {
+      await sendVerificationEmail("/signup/verify");
+      setIsResending(false);
+      alert("Verification email sent! Please check your inbox.");
+    } catch (error: unknown) {
+      setIsResending(false);
+      alert("Failed to send verification email. Please try again.");
+      console.error("Resend verification email error:", error);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md text-center">
-        <h1 className="text-2xl font-bold mb-6">Email Verification</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold text-gray-900">
+            Email Verification
+          </h2>
+        </div>
 
-        <p className="mb-6 text-gray-700">{message}</p>
+        {/* No parameters case */}
+        {!userId && !secret && (
+          <div className="space-y-4">
+            <Alert
+              message="Verification Required"
+              description="Please click the verification link sent to your email address to complete your account verification."
+              type="info"
+              showIcon
+            />
 
-        {!verified && user && !searchParams.get("secret") && (
-          <button
-            onClick={sendVerificationEmail}
-            disabled={isVerifying}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:bg-indigo-400"
-          >
-            {isVerifying ? "Sending..." : "Resend Verification Email"}
-          </button>
+            <div className="text-center mt-6">
+              <Button
+                type="primary"
+                loading={isResending}
+                onClick={handleResendEmail}
+                className="w-full"
+              >
+                Resend Verification Email
+              </Button>
+            </div>
+
+            <div className="mt-4 text-center">
+              <Link
+                href="/login"
+                className="font-medium text-indigo-600 hover:text-indigo-500"
+              >
+                Back to Login
+              </Link>
+            </div>
+          </div>
         )}
 
-        {!user && (
-          <Link href="/login">
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
-              Log In
-            </button>
-          </Link>
+        {/* Loading state */}
+        {verificationStatus === "loading" && (
+          <div className="text-center py-6">
+            <Spin size="large" />
+            <p className="mt-4 text-gray-600">Verifying your email...</p>
+          </div>
         )}
 
-        {verified && (
-          <div className="mt-4 text-green-600">
-            <svg
-              className="w-16 h-16 mx-auto"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            <p className="mt-2">Redirecting to complete your registration...</p>
+        {/* Success state */}
+        {verificationStatus === "success" && (
+          <div className="space-y-4">
+            <Alert
+              message="Email Verified"
+              description="Your email has been successfully verified. You can now log in to your account."
+              type="success"
+              showIcon
+            />
+
+            <div className="text-center mt-6">
+              <Link href="/login">
+                <Button type="primary" className="w-full">
+                  Go to Login
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* Error state */}
+        {verificationStatus === "error" && (
+          <div className="space-y-4">
+            <Alert
+              message="Verification Failed"
+              description={
+                errorMessage ||
+                "Unable to verify your email. The verification link may have expired."
+              }
+              type="error"
+              showIcon
+            />
+
+            <div className="text-center mt-6">
+              <Button
+                type="primary"
+                loading={isResending}
+                onClick={handleResendEmail}
+                className="w-full"
+              >
+                Resend Verification Email
+              </Button>
+            </div>
           </div>
         )}
       </div>

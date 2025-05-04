@@ -7,6 +7,7 @@ import {
   sendVerificationEmail,
 } from "@/lib/appwrite/auth";
 import GoogleSignInButton from "./GoogleButton";
+import { Alert, notification } from "antd";
 
 export default function SignupForm() {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ export default function SignupForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSignupSuccess, setIsSignupSuccess] = useState(false);
 
   const validateForm = () => {
     if (!email || !password || !confirmPassword) {
@@ -23,11 +25,6 @@ export default function SignupForm() {
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
-      return false;
-    }
-
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters");
       return false;
     }
 
@@ -44,8 +41,15 @@ export default function SignupForm() {
       setIsLoading(true);
 
       await signupWithEmailPassword(email, password);
-      await sendVerificationEmail("/verify");
+      await sendVerificationEmail("/signup/verify");
 
+      notification.success({
+        message: "Verification Email Sent",
+        description:
+          "Please check your email to complete the registration process.",
+        duration: 10,
+      });
+      setIsSignupSuccess(true);
     } catch (err: unknown) {
       if (err instanceof Error) {
         console.error("Signup error:", err);
@@ -59,12 +63,6 @@ export default function SignupForm() {
   return (
     <div className="bg-white p-8 rounded-lg shadow-md">
       <form onSubmit={handleSubmit} className="space-y-6">
-        {error && (
-          <div className="bg-red-50 text-red-500 p-3 rounded-md text-sm">
-            {error}
-          </div>
-        )}
-
         <div>
           <label
             htmlFor="email"
@@ -116,13 +114,34 @@ export default function SignupForm() {
           />
         </div>
 
+        {error && (
+          <div className="bg-red-50 text-red-500 p-3 rounded-md text-sm">
+            {error}
+          </div>
+        )}
+
+        {isSignupSuccess && (
+          <div>
+            <Alert
+              message="Verification Email Sent"
+              description="Please check your email inbox to complete your registration."
+              type="success"
+              showIcon
+            />
+          </div>
+        )}
+
         <div>
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || isSignupSuccess}
             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400"
           >
-            {isLoading ? "Creating Account..." : "Sign Up"}
+            {isLoading
+              ? "Creating Account..."
+              : isSignupSuccess
+              ? "Verification Email Sent"
+              : "Sign Up"}
           </button>
         </div>
       </form>
