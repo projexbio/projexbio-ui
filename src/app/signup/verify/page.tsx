@@ -117,15 +117,15 @@ export default function VerifyEmailPage() {
           <div className="space-y-4">
             <Alert
               message="Email Verified"
-              description="Your email has been successfully verified. You can now log in to your account."
+              description="Your email has been successfully verified. PLease register to continue."
               type="success"
               showIcon
             />
 
             <div className="text-center mt-6">
-              <Link href="/login">
+              <Link href="/registration">
                 <Button type="primary" className="w-full">
-                  Go to Login
+                  Go to Registration page
                 </Button>
               </Link>
             </div>
