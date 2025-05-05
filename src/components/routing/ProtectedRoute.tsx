@@ -14,7 +14,9 @@ export default function ProtectedRoute({
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !user) {
+    if (!isLoading && user && !user.emailVerification) {
+      router.push("/signup/verify");
+    } else if (!isLoading && !user) {
       router.push("/login");
     }
   }, [user, isLoading, router]);

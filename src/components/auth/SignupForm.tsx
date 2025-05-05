@@ -7,7 +7,7 @@ import {
   sendVerificationEmail,
 } from "@/lib/appwrite/auth";
 import GoogleSignInButton from "./GoogleButton";
-import { Alert, notification } from "antd";
+import { Alert } from "antd";
 
 export default function SignupForm() {
   const [email, setEmail] = useState("");
@@ -39,16 +39,8 @@ export default function SignupForm() {
 
     try {
       setIsLoading(true);
-
       await signupWithEmailPassword(email, password);
       await sendVerificationEmail("/signup/verify");
-
-      notification.success({
-        message: "Verification Email Sent",
-        description:
-          "Please check your email to complete the registration process.",
-        duration: 10,
-      });
       setIsSignupSuccess(true);
     } catch (err: unknown) {
       if (err instanceof Error) {

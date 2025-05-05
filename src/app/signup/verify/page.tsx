@@ -1,64 +1,106 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import React, { useEffect, useState, useRef } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
   confirmVerification,
   sendVerificationEmail,
 } from "@/lib/appwrite/auth";
 import { Button, Alert, Spin } from "antd";
-import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 export default function VerifyEmailPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [verificationStatus, setVerificationStatus] = useState<
     "loading" | "success" | "error" | "idle"
   >("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isResending, setIsResending] = useState(false);
+  const [resendStatus, setResendStatus] = useState<{
+    show: boolean;
+    success: boolean;
+    message: string;
+  }>({ show: false, success: false, message: "" });
+  const { user, isLoading } = useAuth();
+  const [verificationAttempted, setVerificationAttempted] = useState(false);
+  const redirectingRef = useRef(false);
 
   const userId = searchParams?.get("userId");
-  console.log("userId", userId);
   const secret = searchParams?.get("secret");
-  console.log("secret", secret);
 
   useEffect(() => {
-    // Check if we have the required params for verification
-    if (userId && secret) {
-      verifyEmail(userId, secret);
+    // If already verified, redirect to home
+    if (!isLoading && user && user.emailVerification) {
+      router.push("/home");
+      return;
     }
-  }, [userId, secret]);
 
-  const verifyEmail = async (userId: string, secret: string) => {
-    setVerificationStatus("loading");
-
-    try {
-      await confirmVerification(userId, secret);
-      setVerificationStatus("success");
-    } catch (error: unknown) {
-      setVerificationStatus("error");
-      if (error instanceof Error) {
-        setErrorMessage(
-          error.message || "Failed to verify email. Please try again."
-        );
-        console.error("Email verification error:", error);
-      } else {
-        setErrorMessage("An unknown error occurred. Please try again.");
-        console.error("Unknown error:", error);
-      }
+    // If logged in but not verified, show the verification needed state
+    if (!isLoading && user && !user.emailVerification) {
+      return;
     }
-  };
+
+    // If not logged in and no verification params, redirect to login
+    if (!isLoading && !user && (!userId || !secret)) {
+      router.push("/login");
+      return;
+    }
+
+    // Only verify if we haven't already attempted verification
+    if (userId && secret && !verificationAttempted && !redirectingRef.current) {
+      const verifyEmail = async () => {
+        setVerificationStatus("loading");
+        setVerificationAttempted(true);
+
+        try {
+          await confirmVerification(userId, secret);
+          setVerificationStatus("success");
+
+          // Set the redirecting flag before starting redirect process
+          redirectingRef.current = true;
+
+          // Increase timeout to give more time for the success message to be visible
+          setTimeout(() => {
+            window.location.href = "/registration"; // Use direct location change for more reliable redirect
+          }, 2500);
+        } catch (error: unknown) {
+          setVerificationStatus("error");
+          if (error instanceof Error) {
+            setErrorMessage(
+              error.message || "Failed to verify email. Please try again."
+            );
+            console.error("Email verification error:", error);
+          } else {
+            setErrorMessage("An unknown error occurred. Please try again.");
+            console.error("Unknown error:", error);
+          }
+        }
+      };
+
+      verifyEmail();
+    }
+  }, [userId, secret, router, isLoading, user, verificationAttempted]);
 
   const handleResendEmail = async () => {
     setIsResending(true);
+    setResendStatus({ show: false, success: false, message: "" });
 
     try {
       await sendVerificationEmail("/signup/verify");
       setIsResending(false);
-      alert("Verification email sent! Please check your inbox.");
+      setResendStatus({
+        show: true,
+        success: true,
+        message: "Verification email sent! Please check your inbox.",
+      });
     } catch (error: unknown) {
       setIsResending(false);
-      alert("Failed to send verification email. Please try again.");
+      setResendStatus({
+        show: true,
+        success: false,
+        message: "Failed to send verification email. Please try again.",
+      });
       console.error("Resend verification email error:", error);
     }
   };
@@ -72,35 +114,36 @@ export default function VerifyEmailPage() {
           </h2>
         </div>
 
-        {/* No parameters case */}
-        {!userId && !secret && (
-          <div className="space-y-4">
+        {!isLoading && user && !user.emailVerification && (
+          <div className="text-center flex flex-col gap-3">
+            <p className="text-gray-600">
+              Please check your email for a verification link. If you
+              haven&apos;t received it, click the button below to resend the
+              verification email.
+            </p>
+            <p className="mt-4 text-sm text-gray-500">
+              If you don&apos;t see the email, check your spam or junk folder.
+            </p>
+            <Button
+              type="primary"
+              loading={isResending}
+              onClick={handleResendEmail}
+              className="mt-4 w-full"
+            >
+              Resend Verification Email
+            </Button>
+          </div>
+        )}
+
+        {resendStatus.show && (
+          <div>
             <Alert
-              message="Verification Required"
-              description="Please click the verification link sent to your email address to complete your account verification."
-              type="info"
+              message={resendStatus.success ? "Success" : "Error"}
+              description={resendStatus.message}
+              type={resendStatus.success ? "success" : "error"}
               showIcon
+              className="mb-4"
             />
-
-            <div className="text-center mt-6">
-              <Button
-                type="primary"
-                loading={isResending}
-                onClick={handleResendEmail}
-                className="w-full"
-              >
-                Resend Verification Email
-              </Button>
-            </div>
-
-            <div className="mt-4 text-center">
-              <Link
-                href="/login"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
-              >
-                Back to Login
-              </Link>
-            </div>
           </div>
         )}
 
@@ -117,18 +160,10 @@ export default function VerifyEmailPage() {
           <div className="space-y-4">
             <Alert
               message="Email Verified"
-              description="Your email has been successfully verified. PLease register to continue."
+              description="Your email has been successfully verified. Redirecting to registration page..."
               type="success"
               showIcon
             />
-
-            <div className="text-center mt-6">
-              <Link href="/registration">
-                <Button type="primary" className="w-full">
-                  Go to Registration page
-                </Button>
-              </Link>
-            </div>
           </div>
         )}
 
@@ -144,15 +179,14 @@ export default function VerifyEmailPage() {
               type="error"
               showIcon
             />
-
             <div className="text-center mt-6">
               <Button
                 type="primary"
-                loading={isResending}
                 onClick={handleResendEmail}
+                loading={isResending}
                 className="w-full"
               >
-                Resend Verification Email
+                Request New Verification Email
               </Button>
             </div>
           </div>
