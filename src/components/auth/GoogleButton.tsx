@@ -20,7 +20,7 @@ export default function GoogleButton({ text }: GoogleButtonProps) {
       setTimeout(async () => {
         const isAuthenticated = await checkAuthStatus();
         if (isAuthenticated) {
-          router.push("/home");
+          router.push("/explore");
         }
       }, 1000); // Give some time for the OAuth session to be registered
     } catch (error) {

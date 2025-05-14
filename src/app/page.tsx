@@ -19,10 +19,10 @@ export default function Home() {
 
         {isLoggedIn ? (
           <Link
-            href="/home"
+            href="/explore"
             className="space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto px-6 py-3 text-lg font-semibold text-white bg-gradient-to-r from-brand-purple to-brand-blue rounded-lg shadow hover:shadow-lg transition duration-300"
           >
-            Go to Home Page
+            Go to Dashboard
           </Link>
         ) : (
           <div className="space-y-4 md:space-y-0 md:space-x-4">

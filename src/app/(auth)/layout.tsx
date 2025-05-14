@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import Loading from "@/components/ui/Loading";
 
-export default function PublicRoute({
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -17,7 +17,7 @@ export default function PublicRoute({
     if (!isLoading && user && !user.emailVerification) {
       router.push("/signup/verify");
     } else if (!isLoading && user) {
-      router.push("/home");
+      router.push("/explore");
     }
   }, [user, isLoading, router]);
 

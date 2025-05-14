@@ -31,13 +31,14 @@ export default function VerifyEmailPage() {
 
   useEffect(() => {
     // If already verified, redirect to home
-    if (!isLoading && user && user.emailVerification) {
-      router.push("/home");
-      return;
-    }
-
+    
     // If logged in but not verified, show the verification needed state
     if (!isLoading && user && !user.emailVerification) {
+      return;
+    }
+    
+    if (!isLoading && user && user.emailVerification) {
+      router.push("/explore");
       return;
     }
 
@@ -62,7 +63,7 @@ export default function VerifyEmailPage() {
 
           // Increase timeout to give more time for the success message to be visible
           setTimeout(() => {
-            window.location.href = "/registration"; // Use direct location change for more reliable redirect
+            window.location.href = "/explore"; // Use direct location change for more reliable redirect
           }, 2500);
         } catch (error: unknown) {
           setVerificationStatus("error");

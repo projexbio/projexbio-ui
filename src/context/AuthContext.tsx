@@ -40,12 +40,12 @@ export function AuthProvider({
     try {
       const currentUser = await account().get();
       setUser(currentUser);
-      setIsLoading(false);
       return true;
     } catch {
       setUser(null);
-      setIsLoading(false);
       return false;
+    } finally {
+      setIsLoading(false);
     }
   }, [account]);
 

@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import Loading from "@/components/ui/Loading";
 
-export default function ProtectedRoute({
+export default function ProtectedLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -25,5 +25,17 @@ export default function ProtectedRoute({
     return <Loading />;
   }
 
-  return user ? <>{children}</> : null;
-}
+  if (!user) {
+    return null;
+  }
+
+  return (
+    <div className="min-h-screen">
+      {/* Add your common layout elements here */}
+      <nav className="bg-white shadow">
+        {/* Add navigation */}
+      </nav>
+      <main>{children}</main>
+    </div>
+  );
+} 

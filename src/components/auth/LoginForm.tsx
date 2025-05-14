@@ -36,7 +36,7 @@ export default function LoginForm() {
       await checkAuthStatus();
 
       // Redirect to home page
-      router.push("/home");
+      router.push("/explore");
     } catch (err: unknown) {
       if (err instanceof Error) {
         console.error("Login error:", err.message);

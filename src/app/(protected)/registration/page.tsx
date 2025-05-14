@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import ProtectedRoute from "@/components/routing/ProtectedRoute";
 
 export default function RegistrationPage() {
   const router = useRouter();
@@ -24,7 +23,7 @@ export default function RegistrationPage() {
       // You can add API calls here to save user profile data
       // For now, just redirect to home page
 
-      router.push("/home");
+      router.push("/explore");
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message || "Failed to save profile data");
@@ -37,7 +36,6 @@ export default function RegistrationPage() {
   };
 
   return (
-    <ProtectedRoute>
       <div className="min-h-screen flex flex-col items-center justify-center p-4">
         <div className="w-full max-w-md">
           <h1 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-brand-purple to-brand-blue bg-clip-text text-transparent">
@@ -103,6 +101,5 @@ export default function RegistrationPage() {
           </div>
         </div>
       </div>
-    </ProtectedRoute>
   );
 }

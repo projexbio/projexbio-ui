@@ -10,7 +10,7 @@ export const googleOAuth = async () => {
       const origin = window.location.origin;
       return account.createOAuth2Session(
         OAuthProvider.Google,
-        `${origin}/home`, // Redirect URL after successful login
+        `${origin}/explore`, // Redirect URL after successful login
         `${origin}/login` // Redirect URL after failed login
       );
     } else {

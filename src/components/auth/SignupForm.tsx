@@ -115,8 +115,7 @@ export default function SignupForm() {
         {isSignupSuccess && (
           <div>
             <Alert
-              message="Verification Email Sent"
-              description="Please check your email inbox to complete your registration."
+              message="Verification Email Sent, Check Your Inbox!"
               type="success"
               showIcon
             />
