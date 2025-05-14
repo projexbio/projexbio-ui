@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { AuthProvider } from "@/context/AuthContext";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 import "@ant-design/v5-patch-for-react-19";
 import "./globals.css";
+import { Providers } from "./providers";
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,7 +34,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased`}>
-        <AuthProvider>{children}</AuthProvider>
+        <Providers>
+          <AntdRegistry>
+            <AuthProvider>{children}</AuthProvider>
+          </AntdRegistry>
+        </Providers>
       </body>
     </html>
   );
