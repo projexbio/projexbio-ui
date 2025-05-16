@@ -8,6 +8,7 @@ import {Input, Avatar } from "antd";
 import { Button } from "@heroui/react";
 import Link from "next/link";
 import Image from "next/image";
+import { FaCirclePlus } from "react-icons/fa6";
 
 export default function ProtectedLayout({
   children,
@@ -63,16 +64,10 @@ export default function ProtectedLayout({
           </div>
           {/* Right: Upload Project & Profile */}
           <div className="flex items-center gap-4 justify-end">
-            {/* <Button
-              className="bg-brand-purple"
-              type="primary"
-              href="/registration"
-              style={{  borderColor: "var(--color-brand-purple)" }}
-              size="large"
-            >
-              Upload Project
-            </Button> */}
-            <Button className="bg-brand-purple">Click me</Button>
+            <Button 
+              className="bg-brand-purple rounded-full pl-1" 
+              startContent={<FaCirclePlus size={42} />}
+            >Upload Project</Button>
             <a
               href={`/profile/${user?.name ? encodeURIComponent(user.name) : user?.$id}`}
               title="Profile"
