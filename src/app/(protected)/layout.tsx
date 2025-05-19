@@ -1,10 +1,10 @@
 "use client";
 
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Loading from "@/components/ui/Loading";
-import {Input, Avatar } from "antd";
+import { Input, Avatar } from "antd";
 import { Button } from "@heroui/react";
 import Link from "next/link";
 import Image from "next/image";
@@ -15,18 +15,18 @@ export default function ProtectedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user, isLoading } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && user && !user.emailVerification) {
+    if (!loading && user && !user.emailVerification) {
       router.push("/signup/verify");
-    } else if (!isLoading && !user) {
+    } else if (!loading && !user) {
       router.push("/login");
     }
-  }, [user, isLoading, router]);
+  }, [user, loading, router]);
 
-  if (isLoading) {
+  if (loading) {
     return <Loading />;
   }
 
@@ -36,9 +36,7 @@ export default function ProtectedLayout({
 
   return (
     <div className="min-h-screen">
-      <nav
-        className="px-4 py-2 bg-gradient-to-r from-brand-purple to-brand-blue"
-      >
+      <nav className="px-4 py-2 bg-gradient-to-r from-brand-purple to-brand-blue">
         <div className="grid grid-cols-3 items-center w-full mx-auto">
           {/* Left: Logo */}
           <div className="flex items-center gap-2 justify-start">
@@ -64,22 +62,37 @@ export default function ProtectedLayout({
           </div>
           {/* Right: Upload Project & Profile */}
           <div className="flex items-center gap-4 justify-end">
-            <Button 
-              className="bg-brand-purple rounded-full pl-1" 
+            <Button
+              className="bg-brand-purple rounded-full pl-1"
               startContent={<FaCirclePlus size={42} />}
-            >Upload Project</Button>
+            >
+              Upload Project
+            </Button>
             <a
-              href={`/profile/${user?.name ? encodeURIComponent(user.name) : user?.$id}`}
+              href={`/profile/${
+                user?.name ? encodeURIComponent(user.name) : user?.$id
+              }`}
               title="Profile"
             >
-              <Avatar style={{ backgroundColor: '#fff', color: 'var(--color-brand-purple)', fontWeight: 700 }} size={40}>
-                {user?.name ? user.name.charAt(0).toUpperCase() : <span className="material-icons">person</span>}
+              <Avatar
+                style={{
+                  backgroundColor: "#fff",
+                  color: "var(--color-brand-purple)",
+                  fontWeight: 700,
+                }}
+                size={40}
+              >
+                {user?.name ? (
+                  user.name.charAt(0).toUpperCase()
+                ) : (
+                  <span className="material-icons">person</span>
+                )}
               </Avatar>
             </a>
           </div>
-        </div> 
+        </div>
       </nav>
       <main>{children}</main>
     </div>
   );
-} 
+}

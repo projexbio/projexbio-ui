@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { client } from "@/lib/appwrite/client";
 import { Account } from "appwrite";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import GoogleSignInButton from "./GoogleButton";
 
@@ -14,7 +14,7 @@ export default function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { checkAuthStatus } = useAuth();
+  const { refreshUser } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,14 +28,10 @@ export default function LoginForm() {
     try {
       setIsLoading(true);
       const account = new Account(client);
-
-      // Create email session
       await account.createEmailPasswordSession(email, password);
 
-      // Update auth context
-      await checkAuthStatus();
+      await refreshUser();
 
-      // Redirect to home page
       router.push("/explore");
     } catch (err: unknown) {
       if (err instanceof Error) {

@@ -56,6 +56,15 @@ export const confirmVerification = async (userId: string, secret: string) => {
   }
 };
 
+export const getCurrentAppwriteUser = async () => {
+  try {
+    return await account.get();
+  } catch (error) {
+    console.error("Error getting current user:", error);
+    throw error;
+  }
+};
+
 export const logoutUser = async (): Promise<void> => {
   try {
     await account.deleteSession("current");
