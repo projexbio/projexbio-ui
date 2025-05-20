@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import Loading from "@/components/ui/Loading";
 
 export default function AuthLayout({
@@ -10,20 +10,20 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user, isLoading } = useAuth();
+  const { appwriteUser, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && user && !user.emailVerification) {
+    if (!loading && appwriteUser && !appwriteUser.emailVerification) {
       router.push("/signup/verify");
-    } else if (!isLoading && user) {
+    } else if (!loading && appwriteUser) {
       router.push("/explore");
     }
-  }, [user, isLoading, router]);
+  }, [appwriteUser, loading, router]);
 
-  if (isLoading) {
+  if (loading) {
     return <Loading />;
   }
 
-  return !user ? <>{children}</> : null;
+  return !appwriteUser ? <>{children}</> : null;
 }

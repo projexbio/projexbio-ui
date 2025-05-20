@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Home() {
-  const { user } = useAuth();
-  const isLoggedIn = !!user; // Check if user is logged in
+  const { appwriteUser } = useAuth();
+  const isLoggedIn = !!appwriteUser; // Check if user is logged in
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-6 md:p-24">

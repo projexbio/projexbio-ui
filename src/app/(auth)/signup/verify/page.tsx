@@ -7,7 +7,7 @@ import {
   sendVerificationEmail,
 } from "@/lib/appwrite/auth";
 import { Button, Alert, Spin } from "antd";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function VerifyEmailPage() {
   const searchParams = useSearchParams();
@@ -22,7 +22,7 @@ export default function VerifyEmailPage() {
     success: boolean;
     message: string;
   }>({ show: false, success: false, message: "" });
-  const { user, isLoading } = useAuth();
+  const { appwriteUser, loading } = useAuth();
   const [verificationAttempted, setVerificationAttempted] = useState(false);
   const redirectingRef = useRef(false);
 
@@ -31,19 +31,19 @@ export default function VerifyEmailPage() {
 
   useEffect(() => {
     // If already verified, redirect to home
-    
+
     // If logged in but not verified, show the verification needed state
-    if (!isLoading && user && !user.emailVerification) {
+    if (!loading && appwriteUser && !appwriteUser.emailVerification) {
       return;
     }
-    
-    if (!isLoading && user && user.emailVerification) {
+
+    if (!loading && appwriteUser && appwriteUser.emailVerification) {
       router.push("/explore");
       return;
     }
 
     // If not logged in and no verification params, redirect to login
-    if (!isLoading && !user && (!userId || !secret)) {
+    if (!loading && !appwriteUser && (!userId || !secret)) {
       router.push("/login");
       return;
     }
@@ -81,7 +81,7 @@ export default function VerifyEmailPage() {
 
       verifyEmail();
     }
-  }, [userId, secret, router, isLoading, user, verificationAttempted]);
+  }, [userId, secret, router, loading, appwriteUser, verificationAttempted]);
 
   const handleResendEmail = async () => {
     setIsResending(true);
@@ -115,7 +115,7 @@ export default function VerifyEmailPage() {
           </h2>
         </div>
 
-        {!isLoading && user && !user.emailVerification && (
+        {!loading && appwriteUser && !appwriteUser.emailVerification && (
           <div className="text-center flex flex-col gap-3">
             <p className="text-gray-600">
               Please check your email for a verification link. If you

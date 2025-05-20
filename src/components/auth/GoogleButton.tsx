@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { googleOAuth } from "@/lib/appwrite/auth";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { FcGoogle } from "react-icons/fc";
 
 interface GoogleButtonProps {
@@ -11,17 +11,15 @@ interface GoogleButtonProps {
 
 export default function GoogleButton({ text }: GoogleButtonProps) {
   const router = useRouter();
-  const { checkAuthStatus } = useAuth();
+  const { refreshUser } = useAuth();
 
   const handleGoogleAuth = async () => {
     try {
       await googleOAuth();
-      // After OAuth redirect, check if user is authenticated
+      // After OAuth redirect, refresh user data
       setTimeout(async () => {
-        const isAuthenticated = await checkAuthStatus();
-        if (isAuthenticated) {
-          router.push("/explore");
-        }
+        await refreshUser();
+        router.push("/explore");
       }, 1000); // Give some time for the OAuth session to be registered
     } catch (error) {
       console.error("Google authentication failed:", error);

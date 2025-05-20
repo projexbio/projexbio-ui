@@ -1,7 +1,9 @@
+"use client";
+
 import { createContext, useContext, useState, useEffect } from "react";
 import { UserService } from "../lib/api/users";
 import axios from "axios";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { getCurrentAppwriteUser, logoutUser } from "../lib/appwrite/auth";
 import { Models } from "appwrite";
 
