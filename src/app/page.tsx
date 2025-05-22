@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 
 export default function Home() {
   const { appwriteUser } = useAuth();
-  const isLoggedIn = !!appwriteUser; // Check if user is logged in
+  const isLoggedIn = !!appwriteUser;
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-6 md:p-24">
