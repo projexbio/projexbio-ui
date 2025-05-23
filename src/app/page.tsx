@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
+import { Spinner } from "@heroui/react";
 
 export default function Home() {
-  const { appwriteUser } = useAuth();
+  const { appwriteUser, loading: authLoading } = useAuth();
   const isLoggedIn = !!appwriteUser;
 
   return (
@@ -17,7 +18,9 @@ export default function Home() {
           Empowering Projects Across Campuses
         </p>
 
-        {isLoggedIn ? (
+        {authLoading ? (
+          <Spinner variant="wave" />
+        ) : isLoggedIn ? (
           <Link
             href="/explore"
             className="space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto px-6 py-3 text-lg font-semibold text-white bg-gradient-to-r from-brand-purple to-brand-blue rounded-lg shadow hover:shadow-lg transition duration-300"
