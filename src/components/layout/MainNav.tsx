@@ -9,7 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { IoIosLogOut } from "react-icons/io";
 
 export default function MainNav() {
-  const { appwriteUser, logout } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <nav className="px-4 py-2 bg-gradient-to-r from-brand-purple to-brand-blue">
@@ -49,13 +49,7 @@ export default function MainNav() {
           </Button>
           {/* Profile Button */}
           <Tooltip content="Profile" placement="bottom">
-            <a
-              href={`/profile/${
-                appwriteUser?.name
-                  ? encodeURIComponent(appwriteUser.name)
-                  : appwriteUser?.$id
-              }`}
-            >
+            <a href={`/profile/${user?.username || "me"}`}>
               <Avatar
                 style={{
                   backgroundColor: "#fff",
@@ -64,8 +58,8 @@ export default function MainNav() {
                 }}
                 size={40}
               >
-                {appwriteUser?.name ? (
-                  appwriteUser.name.charAt(0).toUpperCase()
+                {user?.name ? (
+                  user.name.charAt(0).toUpperCase()
                 ) : (
                   <span className="material-icons">person</span>
                 )}

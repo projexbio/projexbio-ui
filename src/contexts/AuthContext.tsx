@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { UserService } from "../lib/api/users";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { getCurrentAppwriteUser, logoutUser } from "../lib/appwrite/auth";
 import { Models } from "appwrite";
 
@@ -24,7 +24,6 @@ interface AuthContextType {
   appwriteUser: Models.User<Models.Preferences> | null;
   user: User | null;
   loading: boolean;
-  error: string | null;
   refreshUser: () => Promise<void>;
   logout: () => Promise<void>;
 }
@@ -36,16 +35,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     useState<Models.User<Models.Preferences> | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
 
   const refreshUser = async () => {
     try {
-      // First get Appwrite user
-      const appwriteUserData = await getCurrentAppwriteUser();
-      setAppwriteUser(appwriteUserData);
+      setLoading(true);
+      const appwriteUser = await getCurrentAppwriteUser();
+      setAppwriteUser(appwriteUser);
 
-      if (!appwriteUserData) {
+      if (!appwriteUser) {
         setUser(null);
         return;
       }
@@ -55,17 +54,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const userData = await UserService.getCurrentUser();
         setUser(userData.data);
       } catch (err) {
+        console.log("err", err);
         if (axios.isAxiosError(err) && err.response?.status === 404) {
+          console.log("user not found in db");
           // User exists in Appwrite but not in our DB
           setUser(null);
+          // Redirect to onboarding if not already there
+          if (pathname !== "/onboarding") {
+            router.push("/onboarding");
+          }
         } else {
-          setError("Failed to fetch user data");
+          console.log("Failed to fetch user data");
         }
       }
     } catch (err) {
       setAppwriteUser(null);
       setUser(null);
-      setError("Failed to fetch Appwrite user");
+      console.log("Failed to fetch Appwrite user");
     } finally {
       setLoading(false);
     }
@@ -78,13 +83,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Clear both user states
       setAppwriteUser(null);
       setUser(null);
-      setError(null);
+      console.log("Logged out");
 
       // Redirect to home/login page
       router.push("/");
     } catch (error) {
       console.error("Logout failed:", error);
-      setError("Failed to logout");
     }
   };
 
@@ -98,7 +102,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         appwriteUser,
         user,
         loading,
-        error,
         refreshUser,
         logout,
       }}
