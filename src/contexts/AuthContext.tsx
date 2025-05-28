@@ -55,11 +55,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(userData.data);
       } catch (err) {
         console.log("err", err);
-        if (axios.isAxiosError(err) && err.response?.status === 404) {
-          console.log("user not found in db");
-          // User exists in Appwrite but not in our DB
+        if (
+          axios.isAxiosError(err) &&
+          err.response?.status === 404 &&
+          err.response?.data?.message === "User not found"
+        ) {
           setUser(null);
-          // Redirect to onboarding if not already there
           if (pathname !== "/onboarding") {
             router.push("/onboarding");
           }
