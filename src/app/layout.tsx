@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
 import "@ant-design/v5-patch-for-react-19";
 import "./globals.css";
 import { Providers } from "./providers";
@@ -33,11 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased`}>
-        <Providers>
-          <AntdRegistry>
-            <AuthProvider>{children}</AuthProvider>
-          </AntdRegistry>
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
