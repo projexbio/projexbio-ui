@@ -6,7 +6,9 @@
 
 @theme inline {
   --color-brand-purple: #8c52ff;
+  --color-brand-purple-50: #faf5ff;
   --color-brand-blue: #5ce1e6;
+  --color-brand-blue-50: #eff6ff;
 }
 
 body {

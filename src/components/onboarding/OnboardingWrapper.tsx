@@ -10,99 +10,36 @@ import { Tabs, Tab } from "@heroui/tabs";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
 const OnboardingWrapper: React.FC = () => {
-  const { currentStep, nextStep, previousStep, totalSteps } =
-    useOnboardingStore();
+  const { currentStep, goToStep } = useOnboardingStore();
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-3xl mx-auto my-6 bg-gray-10">
       <Tabs
         selectedKey={currentStep.toString()}
-        onSelectionChange={(key) =>
-          useOnboardingStore.getState().goToStep(Number(key))
-        }
-        variant="underlined"
+        onSelectionChange={(key) => goToStep(Number(key))}
+        variant="bordered"
         color="primary"
         classNames={{
-          tabList: "m-auto",
-          tab: "px-4 py-2",
           tabContent: "text-sm",
+          panel: "h-96",
         }}
+        fullWidth
       >
         <Tab key="1" title="Role">
-          <div className="bg-white rounded-lg p-6">
-            <StepOne />
-          </div>
+          <StepOne />
         </Tab>
         <Tab key="2" title="Personal Info">
-          <div className="bg-white rounded-lg p-6">
-            <StepTwo />
-          </div>
+          <StepTwo />
         </Tab>
         <Tab key="3" title="College Info">
-          <div className="bg-white rounded-lg p-6">
-            <StepThree />
-          </div>
+          <StepThree />
         </Tab>
         <Tab key="4" title="Submit">
-          <div className="bg-white rounded-lg p-6">
-            <StepFour />
-          </div>
+          <StepFour />
         </Tab>
       </Tabs>
-      <NavigationButtons
-        currentStep={currentStep}
-        totalSteps={totalSteps}
-        onNext={nextStep}
-        onPrevious={previousStep}
-      />
     </div>
   );
 };
-
-interface NavigationButtonsProps {
-  currentStep: number;
-  totalSteps: number;
-  onNext: () => void;
-  onPrevious: () => void;
-}
-
-const NavigationButtons: React.FC<NavigationButtonsProps> = ({
-  currentStep,
-  totalSteps,
-  onNext,
-  onPrevious,
-}) => (
-  <div className="flex justify-between mt-8">
-    <button
-      onClick={onPrevious}
-      className={`flex items-center px-6 py-2 rounded-lg ${
-        currentStep === 1
-          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-      }`}
-      disabled={currentStep === 1}
-    >
-      <FiArrowLeft className="w-5 h-5 mr-2" />
-      Back
-    </button>
-    <button
-      onClick={onNext}
-      className={`flex items-center px-6 py-2 rounded-lg ${
-        currentStep === totalSteps
-          ? "bg-green-600 hover:bg-green-700"
-          : "bg-blue-600 hover:bg-blue-700"
-      } text-white`}
-    >
-      {currentStep === totalSteps ? (
-        "Submit"
-      ) : (
-        <>
-          Next
-          <FiArrowRight className="w-5 h-5 ml-2" />
-        </>
-      )}
-    </button>
-  </div>
-);
 
 export default OnboardingWrapper;

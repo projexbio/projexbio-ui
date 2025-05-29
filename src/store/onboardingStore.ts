@@ -6,6 +6,8 @@ interface OnboardingStore {
   previousStep: () => void;
   goToStep: (step: number) => void;
   totalSteps: number;
+  role: string;
+  setRole: (role: string) => void;
 }
 
 export const useOnboardingStore = create<OnboardingStore>((set) => ({
@@ -23,4 +25,7 @@ export const useOnboardingStore = create<OnboardingStore>((set) => ({
     set((state) => ({
       currentStep: Math.min(Math.max(step, 1), state.totalSteps),
     })),
+
+  role: "",
+  setRole: (role: string) => set({ role }),
 }));
