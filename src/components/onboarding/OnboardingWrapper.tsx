@@ -7,7 +7,6 @@ import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
 import StepFour from "./StepFour";
 import { Tabs, Tab } from "@heroui/tabs";
-import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
 const OnboardingWrapper: React.FC = () => {
   const { currentStep, goToStep } = useOnboardingStore();
@@ -21,7 +20,7 @@ const OnboardingWrapper: React.FC = () => {
         color="primary"
         classNames={{
           tabContent: "text-sm",
-          panel: "h-96",
+          panel: "h-full",
         }}
         fullWidth
       >

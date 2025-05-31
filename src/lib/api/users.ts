@@ -36,4 +36,14 @@ export class UserService {
       },
     });
   }
+
+  static async checkUsernameAvailability(username: string) {
+    const jwt = await this.getJWT();
+    return axios.get(`${API_URL}/users/check-username`, {
+      params: { username },
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+  }
 }

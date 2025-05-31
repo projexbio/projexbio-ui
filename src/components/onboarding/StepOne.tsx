@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { PiStudentFill } from "react-icons/pi";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 import { useOnboardingStore } from "@/store/onboardingStore";
@@ -9,7 +9,6 @@ const StepOne: React.FC = () => {
 
   const handleRoleSelect = (selectedRole: "STUDENT" | "FACULTY") => {
     setRole(selectedRole);
-    // wait 1 sec
     setTimeout(() => {
       goToStep(2);
     }, 500);
