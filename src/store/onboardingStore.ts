@@ -62,12 +62,6 @@ export const useOnboardingStore = create<OnboardingStore>((set, get) => ({
 
   goToStep: (step: number) =>
     set((state) => {
-      // Only allow going to steps that have been reached or are immediately next
-      console.log(state.highestStepReached, "highestStepReached");
-      console.log(step, "step");
-      console.log(state.totalSteps, "totalSteps");
-      console.log(state.currentStep, "currentStep");
-
       return {
         currentStep: Math.min(
           Math.max(step, 1),
