@@ -1,13 +1,13 @@
 import React from "react";
 import { PiStudentFill } from "react-icons/pi";
 import { LiaChalkboardTeacherSolid } from "react-icons/lia";
-import { useOnboardingStore } from "@/store/onboardingStore";
+import { useOnboardingStore, Role } from "@/store/onboardingStore";
 import { Checkbox } from "@heroui/react";
 
 const StepOne: React.FC = () => {
   const { role, setRole, goToStep } = useOnboardingStore();
 
-  const handleRoleSelect = (selectedRole: "STUDENT" | "FACULTY") => {
+  const handleRoleSelect = (selectedRole: Role) => {
     setRole(selectedRole);
     setTimeout(() => {
       goToStep(2);

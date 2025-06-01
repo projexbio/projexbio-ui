@@ -1,11 +1,7 @@
-export default function CollegePage({
-  params,
-}: {
-  params: { name: string };
-}) {
+export default function CollegePage() {
   return (
     <div>
-      <h1>College: {params.name}</h1>
+      <h1>College:</h1>
     </div>
   );
-} 
+}

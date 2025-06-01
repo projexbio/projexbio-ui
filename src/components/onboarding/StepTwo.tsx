@@ -4,25 +4,18 @@ import { useAuth } from "../../contexts/AuthContext";
 import { FaUpload } from "react-icons/fa";
 import Image from "next/image";
 import { UserService } from "../../lib/api/users";
-
-interface FormData {
-  firstName?: string;
-  middleName?: string | null;
-  lastName?: string | null;
-  username?: string;
-  primaryEmail?: string;
-  photo?: File | null;
-}
+import { useOnboardingStore, UserProfile } from "@/store/onboardingStore";
 
 const StepTwo: React.FC = () => {
-  const { appwriteUser, user } = useAuth();
-  const [formData, setFormData] = useState<FormData>({
-    firstName: "",
-    middleName: null,
-    lastName: null,
-    username: user?.username || "",
-    primaryEmail: user?.email || appwriteUser?.email || "",
-    photo: null,
+  const { appwriteUser } = useAuth();
+  const { userProfile, setUserProfile, goToStep } = useOnboardingStore();
+  const [formData, setFormData] = useState<UserProfile>({
+    firstName: userProfile.firstName || "",
+    middleName: userProfile.middleName || "",
+    lastName: userProfile.lastName || "",
+    username: userProfile.username || "",
+    primaryEmail: appwriteUser?.email || "",
+    photo: userProfile.photo,
   });
   const [photoPreview, setPhotoPreview] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -30,11 +23,13 @@ const StepTwo: React.FC = () => {
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
 
   useEffect(() => {
-    // Set initial avatar if available from Appwrite user
-    if (appwriteUser?.prefs?.avatar) {
+    // Set initial avatar if available from userProfile or Appwrite user
+    if (userProfile.photo) {
+      setPhotoPreview(userProfile.photo);
+    } else if (appwriteUser?.prefs?.avatar) {
       setPhotoPreview(appwriteUser.prefs.avatar);
     }
-  }, [appwriteUser]);
+  }, [appwriteUser, userProfile.photo]);
 
   const handleUsernameChange = async (
     e: React.ChangeEvent<HTMLInputElement>
@@ -57,7 +52,11 @@ const StepTwo: React.FC = () => {
       const { available } = response.data;
       setUsernameError(available ? "" : "This username is already taken");
     } catch (error) {
-      setUsernameError("Error checking username availability");
+      setUsernameError(
+        error instanceof Error
+          ? error.message
+          : "Error checking username availability"
+      );
     } finally {
       setIsCheckingUsername(false);
     }
@@ -65,7 +64,7 @@ const StepTwo: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData((prev: UserProfile) => ({
       ...prev,
       [name]: value,
     }));
@@ -91,17 +90,17 @@ const StepTwo: React.FC = () => {
       return;
     }
 
-    // Create preview
+    // Create preview and store as base64
     const reader = new FileReader();
     reader.onloadend = () => {
-      setPhotoPreview(reader.result as string);
+      const base64String = reader.result as string;
+      setPhotoPreview(base64String);
+      setFormData((prev) => ({
+        ...prev,
+        photo: base64String,
+      }));
     };
     reader.readAsDataURL(file);
-
-    setFormData((prev) => ({
-      ...prev,
-      photo: file,
-    }));
     setError("");
   };
 
@@ -114,6 +113,8 @@ const StepTwo: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("formData", formData);
+    setUserProfile(formData);
+    goToStep(3);
   };
 
   return (
@@ -167,7 +168,9 @@ const StepTwo: React.FC = () => {
           <Input
             isRequired
             isClearable
-            onClear={() => setFormData({ ...formData, username: "" })}
+            onClear={() => {
+              setFormData((prev: UserProfile) => ({ ...prev, username: "" }));
+            }}
             label="Username"
             placeholder="samIsSailing"
             variant="underlined"
@@ -189,7 +192,9 @@ const StepTwo: React.FC = () => {
           <Input
             isRequired
             isClearable
-            onClear={() => setFormData({ ...formData, firstName: "" })}
+            onClear={() => {
+              setFormData((prev: UserProfile) => ({ ...prev, firstName: "" }));
+            }}
             label="First Name"
             placeholder="Sam"
             variant="underlined"
@@ -204,13 +209,15 @@ const StepTwo: React.FC = () => {
           {/* Middle Name */}
           <Input
             isClearable
-            onClear={() => setFormData({ ...formData, middleName: "" })}
+            onClear={() => {
+              setFormData((prev: UserProfile) => ({ ...prev, middleName: "" }));
+            }}
             label="Middle Name"
             variant="underlined"
             type="text"
             id="middleName"
             name="middleName"
-            value={formData.middleName || ""}
+            value={formData.middleName}
             onChange={handleInputChange}
             onKeyDown={preventSubmitOnEnter}
           />
@@ -221,11 +228,13 @@ const StepTwo: React.FC = () => {
           {/* Last Name */}
           <Input
             isClearable
-            onClear={() => setFormData({ ...formData, lastName: "" })}
+            onClear={() => {
+              setFormData((prev: UserProfile) => ({ ...prev, lastName: "" }));
+            }}
             type="text"
             id="lastName"
             name="lastName"
-            value={formData.lastName || ""}
+            value={formData.lastName}
             onChange={handleInputChange}
             label="Last Name"
             variant="underlined"
@@ -244,12 +253,9 @@ const StepTwo: React.FC = () => {
           />
         </div>
 
-        {/* Submit button */}
-        <div className="mt-8">
-          <Button type="submit" variant="ghost" color="primary">
-            Save Information
-          </Button>
-        </div>
+        <Button type="submit" variant="ghost" color="primary">
+          Save Information
+        </Button>
       </Form>
     </div>
   );

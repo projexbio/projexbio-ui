@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { UserService } from "../lib/api/users";
 import axios from "axios";
 import { useRouter, usePathname } from "next/navigation";
@@ -38,7 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const refreshUser = async () => {
+  const refreshUser = useCallback(async () => {
     try {
       setLoading(true);
       const appwriteUser = await getCurrentAppwriteUser();
@@ -71,11 +77,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (err) {
       setAppwriteUser(null);
       setUser(null);
-      console.log("Failed to fetch Appwrite user");
+      console.log("Failed to fetch Appwrite user", err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [pathname, router]);
 
   const logout = async () => {
     try {
@@ -95,7 +101,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     refreshUser();
-  }, []);
+  }, [refreshUser]);
 
   return (
     <AuthContext.Provider

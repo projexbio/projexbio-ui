@@ -12,7 +12,7 @@ const OnboardingWrapper: React.FC = () => {
   const { currentStep, goToStep } = useOnboardingStore();
 
   return (
-    <div className="max-w-3xl mx-auto my-6 bg-gray-10">
+    <div className="max-w-3xl mx-auto my- bg-gray-10">
       <Tabs
         selectedKey={currentStep.toString()}
         onSelectionChange={(key) => goToStep(Number(key))}
