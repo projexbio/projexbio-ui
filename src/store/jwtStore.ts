@@ -4,7 +4,6 @@ interface JWTState {
   jwt: string | null;
   expiresAt: number | null;
   setJWT: (jwt: string) => void;
-  clearJWT: () => void;
 }
 
 const JWT_CACHE_DURATION = 12 * 60 * 1000; // 12 minutes in milliseconds
@@ -16,10 +15,5 @@ export const useJWTStore = create<JWTState>((set) => ({
     set({
       jwt,
       expiresAt: Date.now() + JWT_CACHE_DURATION,
-    }),
-  clearJWT: () =>
-    set({
-      jwt: null,
-      expiresAt: null,
     }),
 }));

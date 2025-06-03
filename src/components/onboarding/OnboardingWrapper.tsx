@@ -2,10 +2,10 @@
 
 import React from "react";
 import { useOnboardingStore } from "@/store/onboardingStore";
-import StepOne from "./StepOne";
-import StepTwo from "./StepTwo";
-import StepThree from "./StepThree";
-import StepFour from "./StepFour";
+import StepOne from "@/components/onboarding/StepOne";
+import StepTwo from "@/components/onboarding/StepTwo";
+import StepThree from "@/components/onboarding/StepThree";
+import StepFour from "@/components/onboarding/StepFour";
 import { Tabs, Tab } from "@heroui/tabs";
 
 const OnboardingWrapper: React.FC = () => {
