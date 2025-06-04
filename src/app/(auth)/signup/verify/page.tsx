@@ -6,8 +6,10 @@ import {
   confirmVerification,
   sendVerificationEmail,
 } from "@/lib/appwrite/auth";
-import { Button, Alert, Spin } from "antd";
+import { Alert, Spin } from "antd";
 import { useAuth } from "@/contexts/AuthContext";
+import Loading from "@/components/ui/Loading";
+import { Button } from "@heroui/react";
 
 export default function VerifyEmailPage() {
   const searchParams = useSearchParams();
@@ -22,7 +24,7 @@ export default function VerifyEmailPage() {
     success: boolean;
     message: string;
   }>({ show: false, success: false, message: "" });
-  const { appwriteUser, loading } = useAuth();
+  const { appwriteUser, loading, refreshUser } = useAuth();
   const [verificationAttempted, setVerificationAttempted] = useState(false);
   const redirectingRef = useRef(false);
 
@@ -30,58 +32,74 @@ export default function VerifyEmailPage() {
   const secret = searchParams?.get("secret");
 
   useEffect(() => {
-    // If already verified, redirect to home
-
-    // If logged in but not verified, show the verification needed state
-    if (!loading && appwriteUser && !appwriteUser.emailVerification) {
+    // Don't do anything while still loading
+    if (loading) {
+      console.log("Still loading auth state...");
       return;
     }
 
-    if (!loading && appwriteUser && appwriteUser.emailVerification) {
+    // If user is already verified, redirect to explore
+    if (appwriteUser && appwriteUser.emailVerification) {
+      console.log("User already verified, redirecting to explore");
       router.push("/explore");
       return;
     }
 
-    // If not logged in and no verification params, redirect to login
-    if (!loading && !appwriteUser && (!userId || !secret)) {
-      router.push("/login");
-      return;
-    }
-
-    // Only verify if we haven't already attempted verification
+    // If we have verification parameters, attempt verification
     if (userId && secret && !verificationAttempted && !redirectingRef.current) {
+      console.log("Starting verification process...");
       const verifyEmail = async () => {
         setVerificationStatus("loading");
         setVerificationAttempted(true);
 
         try {
+          console.log("Calling confirmVerification...");
           await confirmVerification(userId, secret);
+          console.log("Verification successful!");
           setVerificationStatus("success");
+
+          // Refresh user data to get updated verification status
+          await refreshUser();
 
           // Set the redirecting flag before starting redirect process
           redirectingRef.current = true;
 
-          // Increase timeout to give more time for the success message to be visible
+          // Redirect after success message
           setTimeout(() => {
-            window.location.href = "/explore"; // Use direct location change for more reliable redirect
-          }, 2500);
+            router.push("/explore");
+          }, 1000);
         } catch (error: unknown) {
+          console.error("Verification failed:", error);
           setVerificationStatus("error");
           if (error instanceof Error) {
             setErrorMessage(
               error.message || "Failed to verify email. Please try again."
             );
-            console.error("Email verification error:", error);
           } else {
             setErrorMessage("An unknown error occurred. Please try again.");
-            console.error("Unknown error:", error);
           }
         }
       };
 
       verifyEmail();
+    } else if (!userId || !secret) {
+      // If no verification params and no user, show message for manual verification
+      console.log("No verification parameters found");
+      if (!appwriteUser) {
+        // If not logged in and no verification params, this might be a manual visit
+        // Don't redirect immediately, let user see the page
+        console.log("User not logged in, showing manual verification option");
+      }
     }
-  }, [userId, secret, router, loading, appwriteUser, verificationAttempted]);
+  }, [
+    userId,
+    secret,
+    router,
+    loading,
+    appwriteUser,
+    verificationAttempted,
+    refreshUser,
+  ]);
 
   const handleResendEmail = async () => {
     setIsResending(true);
@@ -106,6 +124,10 @@ export default function VerifyEmailPage() {
     }
   };
 
+  if (loading) {
+    return <Loading label="Loading..." />;
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow">
@@ -115,23 +137,45 @@ export default function VerifyEmailPage() {
           </h2>
         </div>
 
-        {!loading && appwriteUser && !appwriteUser.emailVerification && (
-          <div className="text-center flex flex-col gap-3">
-            <p className="text-gray-600">
-              Please check your email for a verification link. If you
-              haven&apos;t received it, click the button below to resend the
-              verification email.
-            </p>
-            <p className="mt-4 text-sm text-gray-500">
-              If you don&apos;t see the email, check your spam or junk folder.
+        {/* Show resend option if user is logged in but not verified */}
+        {!loading &&
+          appwriteUser &&
+          !appwriteUser.emailVerification &&
+          !userId &&
+          !secret && (
+            <div className="text-center flex flex-col gap-3">
+              <p className="text-gray-600">
+                Please check your email for a verification link. If you
+                haven&apos;t received it, click the button below to resend the
+                verification email.
+              </p>
+              <p className="mt-4 text-sm text-gray-500">
+                If you don&apos;t see the email, check your spam or junk folder.
+              </p>
+              <Button
+                color="primary"
+                isLoading={isResending}
+                onPress={handleResendEmail}
+                className="mt-4 w-full"
+              >
+                Resend Verification Email
+              </Button>
+            </div>
+          )}
+
+        {/* Show message if not logged in and no verification params */}
+        {!loading && !appwriteUser && (!userId || !secret) && (
+          <div className="text-center">
+            <p className="text-gray-600 mb-4">
+              Please log in to verify your email or use a valid verification
+              link.
             </p>
             <Button
-              type="primary"
-              loading={isResending}
-              onClick={handleResendEmail}
-              className="mt-4 w-full"
+              color="primary"
+              onPress={() => router.push("/login")}
+              className="w-full"
             >
-              Resend Verification Email
+              Go to Login
             </Button>
           </div>
         )}
@@ -161,7 +205,7 @@ export default function VerifyEmailPage() {
           <div className="space-y-4">
             <Alert
               message="Email Verified"
-              description="Your email has been successfully verified. Redirecting to registration page..."
+              description="Your email has been successfully verified. Redirecting to dashboard..."
               type="success"
               showIcon
             />
@@ -182,12 +226,19 @@ export default function VerifyEmailPage() {
             />
             <div className="text-center mt-6">
               <Button
-                type="primary"
-                onClick={handleResendEmail}
-                loading={isResending}
+                color="primary"
+                onPress={handleResendEmail}
+                isLoading={isResending}
                 className="w-full"
               >
                 Request New Verification Email
+              </Button>
+              <Button
+                color="primary"
+                onPress={() => router.push("/login")}
+                className="w-full mt-2"
+              >
+                Go to Login
               </Button>
             </div>
           </div>

@@ -30,6 +30,7 @@ interface AuthContextType {
   appwriteUser: Models.User<Models.Preferences> | null;
   user: User | null;
   loading: boolean;
+  isLoggingOut: boolean;
   refreshUser: () => Promise<void>;
   logout: () => Promise<void>;
 }
@@ -41,6 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     useState<Models.User<Models.Preferences> | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -85,17 +87,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = async () => {
     try {
+      setIsLoggingOut(true);
       await logoutUser();
-
-      // Clear both user states
       setAppwriteUser(null);
       setUser(null);
-      console.log("Logged out");
-
-      // Redirect to home/login page
-      router.push("/");
     } catch (error) {
       console.error("Logout failed:", error);
+    } finally {
+      setIsLoggingOut(false);
     }
   };
 
@@ -109,6 +108,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         appwriteUser,
         user,
         loading,
+        isLoggingOut,
         refreshUser,
         logout,
       }}

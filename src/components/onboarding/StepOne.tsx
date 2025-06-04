@@ -15,7 +15,7 @@ const StepOne: React.FC = () => {
   };
 
   return (
-    <div className="mx-6 flex flex-col h-full justify-center items-center">
+    <div className="mx-6 flex flex-col h-full justify-center items-center text-start">
       <Checkbox
         className="my-4 min-w-full max-w-full border-5 rounded-2xl border-brand-purple bg-brand-purple-50"
         isSelected={role === "STUDENT"}
@@ -44,7 +44,7 @@ const StepOne: React.FC = () => {
             <p className="text-lg font-bold">Faculty</p>
             <p className="text-sm">
               Empower innovation, guide future tech leaders, and celebrate your
-              students’ work. <br />
+              student&apos;s work. <br />
               Welcome aboard!
             </p>
           </div>
