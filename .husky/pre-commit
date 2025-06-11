@@ -2,7 +2,7 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # npm test
-npx lint staged
+npx lint-staged
 
 # #!/usr/bin/env sh
 # :contentReference[oaicite:2]{index=2}
