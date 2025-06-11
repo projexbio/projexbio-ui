@@ -5,6 +5,7 @@ interface JWTState {
   expiresAt: number | null;
   setJWT: (jwt: string) => void;
 }
+const t = 0;
 
 const JWT_CACHE_DURATION = 12 * 60 * 1000; // 12 minutes in milliseconds
 
