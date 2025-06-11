@@ -1,10 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# npm test
 npx lint-staged
-
-# #!/usr/bin/env sh
-# :contentReference[oaicite:2]{index=2}
-
-# :contentReference[oaicite:3]{index=3}
