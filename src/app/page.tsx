@@ -5,9 +5,10 @@ import ActionButtons from "@/components/LandingPage/ActionButtons";
 import "./styles/noise.css";
 
 export default function Home() {
-  const a = 9;
   return (
-    <div className="min-h-screen flex flex-col bg-black"> {/* Removed noise class */}
+    <div className="min-h-screen flex flex-col bg-black">
+      {" "}
+      {/* Removed noise class */}
       <Navbar />
       <main className="container mx-auto px-6 pt-20 pb-16 flex-grow relative z-10">
         <div className="grid md:grid-cols-2 gap-12 items-center mb-12">
@@ -19,8 +20,8 @@ export default function Home() {
               Across Campuses
             </h1>
             <p className="text-lg md:text-xl text-gray-300">
-              ProjexBio helps students build a project portfolio, collaborate with
-              peers, and submit work for assignments.
+              ProjexBio helps students build a project portfolio, collaborate
+              with peers, and submit work for assignments.
               <br />
               <span className="font-anton font-semibold text-white">
                 Showcase. Collaborate. Submit.
