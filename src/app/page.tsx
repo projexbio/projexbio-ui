@@ -5,6 +5,7 @@ import ActionButtons from "@/components/LandingPage/ActionButtons";
 import "./styles/noise.css";
 
 export default function Home() {
+  const a = 9;
   return (
     <div className="min-h-screen flex flex-col bg-black"> {/* Removed noise class */}
       <Navbar />
