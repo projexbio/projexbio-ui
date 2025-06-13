@@ -5,8 +5,8 @@ import AuthButtons from "./AuthButtons";
 
 const Navbar = () => {
   return (
-    <nav className="static w-full px-4 py-2 z-50 top-0">
-      <div className="max-w-7xl mx-auto bg-black/90 backdrop-blur-md shadow-lg rounded-full px-4 py-2 border border-brand-purple/30 flex items-center justify-between">
+    <nav className="sticky w-full px-4 py-2 z-50 top-0">
+      <div className="max-w-7xl mx-auto bg-black/90 backdrop-blur-md shadow-lg rounded-3xl px-2 py-2 border border-brand-purple flex items-center justify-between">
         {/* Logo and Title */}
         <Link href="/" className="flex items-center gap-2">
           <Image
@@ -25,14 +25,14 @@ const Navbar = () => {
         <div className="hidden md:flex gap-8 text-sm font-medium">
           <NavLink href="/features">Features</NavLink>
           <NavLink href="/how-it-works">How it works?</NavLink>
-          <NavLink href="/institutions">For Institutions</NavLink>
+          <NavLink href="/FAQ's">FAQ&apos;s</NavLink>
         </div>
 
         {/* Action Buttons */}
         <div className="flex items-center gap-4">
           {/* GitHub Contribution Button */}
           <Link
-            href="https://github.com/projexbio/projexbio-ui"
+            href="https://github.com/projexbio"
             target="_blank"
             rel="noopener noreferrer"
             className="group relative flex items-center"
@@ -51,7 +51,13 @@ const Navbar = () => {
   );
 };
 
-const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => (
+const NavLink = ({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) => (
   <Link
     href={href}
     className="text-white hover:text-brand-purple transition-colors duration-200"

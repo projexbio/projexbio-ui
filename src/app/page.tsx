@@ -3,12 +3,13 @@ import Navbar from "@/components/LandingPage/Navbar";
 import Footer from "@/components/LandingPage/Footer";
 import ActionButtons from "@/components/LandingPage/ActionButtons";
 import "./styles/noise.css";
+import Features from "@/components/LandingPage/Features";
+import FAQSection from "@/components/LandingPage/FAQSection";
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-black">
       {" "}
-      {/* Removed noise class */}
       <Navbar />
       <main className="container mx-auto px-6 pt-20 pb-16 flex-grow relative z-10">
         <div className="grid md:grid-cols-2 gap-12 items-center mb-12">
@@ -31,18 +32,20 @@ export default function Home() {
             <ActionButtons />
           </div>
           {/* Right Image */}
-          <div className="relative mt-4 md:mt-0">
+          <div className="relative mt-4 md:mt-0 overflow-auto flex justify-end">
             <Image
               src="/dashboardpic.png"
               alt="ProjexBio preview"
               width={800}
               height={600}
-              className="rounded-lg shadow-lg hover:scale-105 transition-transform duration-300"
+              className="rounded-2xl shadow-lg w-full h-auto"
               priority
             />
           </div>
         </div>
       </main>
+      <Features />
+      <FAQSection />
       <Footer />
     </div>
   );
