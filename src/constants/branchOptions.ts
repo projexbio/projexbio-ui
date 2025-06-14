@@ -1,0 +1,16 @@
+export const branchOptions = [
+  "Computer Science",
+  "Electronics",
+  "Mechanical",
+  "AI/ML",
+  "Data Science",
+  "Cybersecurity",
+  "Electrical",
+  "Civil",
+  "Chemical",
+  "Biotechnology",
+  "Biomedical Engineering",
+  "Bioinformatics",
+  "Bioinformatics",
+  "Other",
+];

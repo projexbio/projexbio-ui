@@ -13,6 +13,12 @@ export interface UserProfile {
   photo?: string;
 }
 
+// Step 3 data
+export interface CollegeInfo {
+  collegeId: string;
+  collegeEmail: string;
+}
+
 interface OnboardingState {
   // Navigation
   currentStep: number;
@@ -24,6 +30,9 @@ interface OnboardingState {
 
   // Step 2 - User Profile
   userProfile: UserProfile;
+
+  // Step 3 - College Info
+  collegeInfo: CollegeInfo;
 }
 
 interface OnboardingStore extends OnboardingState {
@@ -37,6 +46,9 @@ interface OnboardingStore extends OnboardingState {
 
   // Step 2 methods
   setUserProfile: (profile: Partial<UserProfile>) => void;
+
+  // Step 3 methods
+  setCollegeInfo: (info: Partial<CollegeInfo>) => void;
 
   // Reset
   resetStore: () => void;
@@ -55,9 +67,13 @@ const initialState: OnboardingState = {
     primaryEmail: "",
     photo: undefined,
   },
+  collegeInfo: {
+    collegeId: "",
+    collegeEmail: "",
+  },
 };
 
-export const useOnboardingStore = create<OnboardingStore>((set, get) => ({
+export const useOnboardingStore = create<OnboardingStore>((set) => ({
   ...initialState,
 
   goToStep: (step: number) =>
@@ -65,7 +81,7 @@ export const useOnboardingStore = create<OnboardingStore>((set, get) => ({
       return {
         currentStep: Math.min(
           Math.max(step, 1),
-          Math.min(state.highestStepReached, state.totalSteps)
+          Math.min(state.highestStepReached, state.totalSteps),
         ),
       };
     }),
@@ -84,6 +100,16 @@ export const useOnboardingStore = create<OnboardingStore>((set, get) => ({
       return {
         userProfile: newUserProfile,
         highestStepReached: Math.max(state.highestStepReached, 3),
+      };
+    }),
+
+  // Step 3 data methods
+  setCollegeInfo: (info: Partial<CollegeInfo>) =>
+    set((state) => {
+      const newCollegeInfo = { ...state.collegeInfo, ...info };
+      return {
+        collegeInfo: newCollegeInfo,
+        highestStepReached: Math.max(state.highestStepReached, 4),
       };
     }),
 

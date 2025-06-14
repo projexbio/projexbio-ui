@@ -32,7 +32,7 @@ const StepTwo: React.FC = () => {
   }, [appwriteUser, userProfile.photo]);
 
   const handleUsernameChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const { value } = e.target;
     setFormData((prev) => ({
@@ -55,7 +55,7 @@ const StepTwo: React.FC = () => {
       setUsernameError(
         error instanceof Error
           ? error.message
-          : "Error checking username availability"
+          : "Error checking username availability",
       );
     } finally {
       setIsCheckingUsername(false);
@@ -85,7 +85,7 @@ const StepTwo: React.FC = () => {
     const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
     if (!allowedTypes.includes(file.type)) {
       setError(
-        "Please upload a valid image file (JPG/JPEG, PNG, WEBP, or GIF)"
+        "Please upload a valid image file (JPG/JPEG, PNG, WEBP, or GIF)",
       );
       return;
     }
@@ -173,7 +173,8 @@ const StepTwo: React.FC = () => {
             }}
             label="Username"
             placeholder="samIsSailing"
-            variant="underlined"
+            variant="bordered"
+            size="sm"
             type="text"
             id="username"
             name="username"
@@ -197,7 +198,8 @@ const StepTwo: React.FC = () => {
             }}
             label="First Name"
             placeholder="Sam"
-            variant="underlined"
+            variant="bordered"
+            size="sm"
             type="text"
             id="firstName"
             name="firstName"
@@ -213,7 +215,8 @@ const StepTwo: React.FC = () => {
               setFormData((prev: UserProfile) => ({ ...prev, middleName: "" }));
             }}
             label="Middle Name"
-            variant="underlined"
+            variant="bordered"
+            size="sm"
             type="text"
             id="middleName"
             name="middleName"
@@ -237,7 +240,8 @@ const StepTwo: React.FC = () => {
             value={formData.lastName}
             onChange={handleInputChange}
             label="Last Name"
-            variant="underlined"
+            variant="bordered"
+            size="sm"
             onKeyDown={preventSubmitOnEnter}
           />
 
@@ -249,7 +253,8 @@ const StepTwo: React.FC = () => {
             value={formData.primaryEmail}
             isDisabled
             label="Primary Email"
-            variant="underlined"
+            variant="bordered"
+            size="sm"
           />
         </div>
 
