@@ -1,4 +1,5 @@
 import api from "../utils/api";
+import { OnboardingPayload, OnboardingResponse } from "@/types/user";
 
 export class UserService {
   static async getCurrentUser() {
@@ -11,15 +12,26 @@ export class UserService {
     });
   }
 
-  static async onboardUser(userData: {
-    appwriteId: string;
-    email: string;
-    name?: string;
-    avatar?: string;
-    college?: string;
-    username?: string;
-    authProvider: string;
-  }) {
-    return api.post("/users/onboard", userData);
+  static async onboardUser(
+    payload: OnboardingPayload,
+    avatarFile?: File,
+  ): Promise<OnboardingResponse> {
+    const formData = new FormData();
+
+    // Add each field individually to FormData
+    Object.entries(payload).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    // Add avatar file if provided
+    if (avatarFile) {
+      formData.append("avatar", avatarFile);
+    }
+
+    return api.post("/users/onboarding", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   }
 }

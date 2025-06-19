@@ -1,118 +1,55 @@
 import { create } from "zustand";
 
-// Step 1 data
-export type Role = "STUDENT" | "FACULTY" | "";
-
-// Step 2 data
-export interface UserProfile {
+export interface OnboardingData {
+  role: "STUDENT" | "FACULTY";
   firstName: string;
   middleName?: string;
   lastName?: string;
   username: string;
   primaryEmail: string;
-  photo?: string;
-}
-
-// Step 3 data
-export interface CollegeInfo {
+  avatarFile?: File;
   collegeId: string;
   collegeEmail: string;
+  // Student fields
+  program?: string;
+  branch?: string;
+  startDate?: string;
+  endDate?: string;
+  // Faculty fields
+  designation?: string;
 }
 
-interface OnboardingState {
-  // Navigation
-  currentStep: number;
-  highestStepReached: number;
-  totalSteps: number;
-
-  // Step 1 - Role Selection
-  role: Role;
-
-  // Step 2 - User Profile
-  userProfile: UserProfile;
-
-  // Step 3 - College Info
-  collegeInfo: CollegeInfo;
-}
-
-interface OnboardingStore extends OnboardingState {
-  // Navigation methods
-  // nextStep: () => void;
-  // previousStep: () => void;
-  goToStep: (step: number) => void;
-
-  // Step 1 methods
-  setRole: (role: Role) => void;
-
-  // Step 2 methods
-  setUserProfile: (profile: Partial<UserProfile>) => void;
-
-  // Step 3 methods
-  setCollegeInfo: (info: Partial<CollegeInfo>) => void;
-
-  // Reset
+interface OnboardingStore {
+  onboardingData: OnboardingData;
+  setOnboardingData: (data: Partial<OnboardingData>) => void;
   resetStore: () => void;
 }
 
-const initialState: OnboardingState = {
-  currentStep: 1,
-  highestStepReached: 1,
-  totalSteps: 4,
-  role: "",
-  userProfile: {
-    firstName: "",
-    middleName: undefined,
-    lastName: undefined,
-    username: "",
-    primaryEmail: "",
-    photo: undefined,
-  },
-  collegeInfo: {
-    collegeId: "",
-    collegeEmail: "",
-  },
+const initialState: OnboardingData = {
+  role: "STUDENT",
+  firstName: "",
+  middleName: "",
+  lastName: "",
+  username: "",
+  primaryEmail: "",
+  avatarFile: undefined,
+  collegeId: "",
+  collegeEmail: "",
+  program: "",
+  branch: "",
+  startDate: "",
+  endDate: "",
+  designation: "",
 };
 
 export const useOnboardingStore = create<OnboardingStore>((set) => ({
-  ...initialState,
-
-  goToStep: (step: number) =>
+  onboardingData: initialState,
+  setOnboardingData: (data: Partial<OnboardingData>) =>
     set((state) => {
+      // console.log(state.onboardingData, data);
       return {
-        currentStep: Math.min(
-          Math.max(step, 1),
-          Math.min(state.highestStepReached, state.totalSteps),
-        ),
+        onboardingData: { ...state.onboardingData, ...data },
       };
     }),
-
-  // Step 1 data methods
-  setRole: (role: Role) =>
-    set((state) => ({
-      role,
-      highestStepReached: Math.max(state.highestStepReached, 2),
-    })),
-
-  // Step 2 data methods
-  setUserProfile: (profile: Partial<UserProfile>) =>
-    set((state) => {
-      const newUserProfile = { ...state.userProfile, ...profile };
-      return {
-        userProfile: newUserProfile,
-        highestStepReached: Math.max(state.highestStepReached, 3),
-      };
-    }),
-
-  // Step 3 data methods
-  setCollegeInfo: (info: Partial<CollegeInfo>) =>
-    set((state) => {
-      const newCollegeInfo = { ...state.collegeInfo, ...info };
-      return {
-        collegeInfo: newCollegeInfo,
-        highestStepReached: Math.max(state.highestStepReached, 4),
-      };
-    }),
-
-  // Reset store
-  resetStore: () => set(initialState),
+  resetStore: () => set({ onboardingData: initialState }),
 }));

@@ -13,5 +13,4 @@ export const programOptions = [
   "M.Com (Master of Commerce)",
   "B.Com + M.Com (Bachelor of Commerce + Master of Commerce)",
   "B.A + M.A (Bachelor of Arts + Master of Arts)",
-  "Other",
 ];

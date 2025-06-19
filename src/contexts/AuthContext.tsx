@@ -62,7 +62,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const userData = await UserService.getCurrentUser();
         setUser(userData.data);
       } catch (err) {
-        console.log("err", err);
         if (
           axios.isAxiosError(err) &&
           err.response?.status === 404 &&

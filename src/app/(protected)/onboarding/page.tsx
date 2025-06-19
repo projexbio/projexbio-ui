@@ -10,7 +10,7 @@ export default function OnboardingPage() {
   const { logout, isLoggingOut } = useAuth();
 
   return (
-    <div className="h-screen text-center relative">
+    <div className="text-center relative">
       <div className="text-center py-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-1">
           Welcome to ProjexBio
