@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-6 md:p-24">
       <div className="w-full max-w-5xl space-y-10 text-center">
-        <h1 className="py-1 text-4xl md:text-6xl font-bold bg-gradient-to-r from-brand-purple to-brand-blue bg-clip-text text-transparent">
+        <h1 className="py-1 text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
           Welcome to ProjexBio
         </h1>
         <p className="text-lg md:text-xl text-gray-600">
@@ -23,7 +23,7 @@ export default function Home() {
         ) : isLoggedIn ? (
           <Link
             href="/explore"
-            className="space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto px-6 py-3 text-lg font-semibold text-white bg-gradient-to-r from-brand-purple to-brand-blue rounded-lg shadow hover:shadow-lg transition duration-300"
+            className="space-y-4 md:space-y-0 md:space-x-4 w-full md:w-auto px-6 py-3 text-lg font-semibold text-white bg-gradient-to-r from-primary to-secondary rounded-lg shadow hover:shadow-lg transition duration-300"
           >
             Go to Dashboard
           </Link>
