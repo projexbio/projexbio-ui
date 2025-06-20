@@ -11,7 +11,9 @@ import { useAuth } from "@/contexts/AuthContext";
 import { OnboardingPayloadSchema } from "@/types/user";
 import { handleApiError } from "@/lib/utils/errorHandler";
 
-const OnboardingWrapper: React.FC = () => {
+const OnboardingWrapper: React.FC<{ onComplete: (name: string) => void }> = ({
+  onComplete,
+}) => {
   const { resetStore, onboardingData } = useOnboardingStore();
   const { appwriteUser } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -43,6 +45,7 @@ const OnboardingWrapper: React.FC = () => {
 
       await UserService.onboardUser(validatedPayload, avatarFile);
       setSuccess(true);
+      onComplete(onboardingData.firstName);
     } catch (error) {
       setError(handleApiError(error));
     } finally {
