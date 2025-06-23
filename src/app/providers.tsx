@@ -9,7 +9,7 @@ import { ThemeProvider } from "next-themes";
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <HeroUIProvider>
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
         <AntdRegistry>
           <AuthProvider>{children}</AuthProvider>
         </AntdRegistry>

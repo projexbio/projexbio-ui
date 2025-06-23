@@ -25,7 +25,6 @@ export default function HomePage() {
         <Button color="success">Success</Button>
         <Button color="warning">Warning</Button>
         <Button color="danger">Danger</Button>
-        <Button className="bg-default-800 text-default-50">Default</Button>
       </div>
     </div>
   );

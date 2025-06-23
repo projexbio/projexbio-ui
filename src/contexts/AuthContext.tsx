@@ -15,12 +15,17 @@ import { Models } from "appwrite";
 
 interface User {
   id: string;
-  appwriteId: string;
-  email: string;
-  name?: string;
-  avatar?: string;
-  college?: string;
+  firstName?: string;
+  middleName?: string;
+  lastName?: string;
   username?: string;
+  email: string;
+  appwriteId: string;
+  avatar?: string;
+  isSuperAdmin?: boolean;
+  githubUsername?: string;
+  college?: string;
+  websiteUrl?: string;
   authProvider: string;
   createdAt: string;
   updatedAt: string;
