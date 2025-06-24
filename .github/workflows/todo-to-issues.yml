@@ -21,8 +21,6 @@ jobs:
         with:
           INSERT_ISSUE_URLS: "true"
           CLOSE_ISSUES: "true"
-          INCLUDE: "**/*.ts,**/*.tsx"
-          LABEL: "todo"
 
       - name: Set Git user
         run: |
@@ -32,8 +30,16 @@ jobs:
       - name: Commit and Push Changes
         run: |
           git add -A
-          if [[ `git status --porcelain` ]]; then
+          if [[ $(git status --porcelain) ]]; then
             git commit -m "Automatically added GitHub issue links to TODOs"
             git push origin main
           else
             echo "No changes to commit"
+
+      - name: Create GitHub Issue
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "TODOs"
+          body-file: "TODOs.md"
+          labels: "todo"
+          assignees: "alstr"
