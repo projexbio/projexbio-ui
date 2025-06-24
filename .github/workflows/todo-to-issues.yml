@@ -1,5 +1,9 @@
 name: TODO to Issue
 
+permissions:
+  contents: read
+  issues: write # 👈 REQUIRED for issue creation
+
 on:
   push:
     branches:
