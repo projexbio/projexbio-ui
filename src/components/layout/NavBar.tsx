@@ -44,8 +44,6 @@ export default function NavBar() {
   ];
 
   return (
-    // TODO: make this navbar responsive
-    // Use menu feature from HeroUI, ensures everything is responsive except brand component
     <Navbar isBordered className="mx-auto p-0" maxWidth="full">
       {/* Brand */}
       <NavbarContent justify="start">
@@ -150,7 +148,7 @@ export default function NavBar() {
               >
                 Theme
               </DropdownItem>
-              {/* TODO: Add a link to the help and feedback page, can reuse from main landing page */}
+
               <DropdownItem
                 startContent={<MdLiveHelp size={16} />}
                 key="help_and_feedback"
@@ -158,6 +156,7 @@ export default function NavBar() {
               >
                 Help & Feedback
               </DropdownItem>
+              {/* TODO: Add a link to the help and feedback page, can reuse from main landing page */}
               <DropdownItem
                 startContent={<MdLogout size={16} />}
                 key="logout"
