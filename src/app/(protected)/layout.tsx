@@ -28,6 +28,7 @@ export default function ProtectedLayout({
   }
 
   // TODO: add a ghsvfyuev testing workflow
+  // Issue URL: https://github.com/projexbio/projexbio-ui/issues/6
   if (!appwriteUser) {
     return null;
   }
