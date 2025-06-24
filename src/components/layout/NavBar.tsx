@@ -22,7 +22,9 @@ import { MdLightMode, MdDarkMode, MdLogout } from "react-icons/md";
 import { GrSystem } from "react-icons/gr";
 import { useTheme } from "next-themes";
 
-export default function App() {
+// TODO: make this whole navbar responsive
+// Use menu feature from HeroUI, ensures everything is responsive except brand component
+export default function NavBar() {
   const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
 
