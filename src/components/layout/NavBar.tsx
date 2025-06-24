@@ -148,7 +148,7 @@ export default function NavBar() {
               >
                 Theme
               </DropdownItem>
-
+              {/* TODO: Add a link to the help and feedback page*/}
               <DropdownItem
                 startContent={<MdLiveHelp size={16} />}
                 key="help_and_feedback"
@@ -156,7 +156,6 @@ export default function NavBar() {
               >
                 Help & Feedback
               </DropdownItem>
-              {/* TODO: Add a link to the help and feedback page, use main landing page */}
               <DropdownItem
                 startContent={<MdLogout size={16} />}
                 key="logout"
