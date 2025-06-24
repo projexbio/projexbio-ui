@@ -112,7 +112,6 @@ export default function App() {
                 <p className="font-semibold">View Profile </p>
               </DropdownItem>
               {/* TODO: Add a link to the settings page (different from profile page) */}
-              {/* TODO: Add a link to the settings page (different from profile page) */}
               <DropdownItem
                 startContent={<FcSettings size={16} />}
                 key="settings"
