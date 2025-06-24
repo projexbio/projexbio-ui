@@ -31,5 +31,6 @@ export default function ProtectedLayout({
     return null;
   }
 
+  // TODO: add a loader from HeroUI
   return <>{children}</>;
 }
