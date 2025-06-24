@@ -27,7 +27,6 @@ export default function ProtectedLayout({
     return <Loading />;
   }
 
-  // TODO: add a ghsvfyuev testing workflow
   if (!appwriteUser) {
     return null;
   }
