@@ -109,8 +109,9 @@ export default function App() {
                 startContent={<FaUser size={16} />}
                 href={`/${user?.username}`}
               >
-                <p className="font-semibold">View Profile</p>
+                <p className="font-semibold">View Profile </p>
               </DropdownItem>
+              {/* TODO: Add a link to the settings page (different from profile page) */}
               {/* TODO: Add a link to the settings page (different from profile page) */}
               <DropdownItem
                 startContent={<FcSettings size={16} />}
