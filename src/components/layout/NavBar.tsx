@@ -61,7 +61,7 @@ export default function App() {
       </NavbarContent>
 
       {/* Search */}
-      {/* TODO: Add a search bar functionality */}
+      {/* TODO: Add a search bar functionality in future with proper app search */}
       <NavbarContent justify="center">
         <Input
           classNames={{
@@ -111,7 +111,7 @@ export default function App() {
               >
                 <p className="font-semibold">View Profile</p>
               </DropdownItem>
-              {/* TODO: Add a link to the settings page */}
+              {/* TODO: Add a link to the settings page (different from profile page) */}
               <DropdownItem
                 startContent={<FcSettings size={16} />}
                 key="settings"
@@ -148,7 +148,7 @@ export default function App() {
               >
                 Theme
               </DropdownItem>
-              {/* TODO: Add a link to the help and feedback page */}
+              {/* TODO: Add a link to the help and feedback page, can reuse from main landing page */}
               <DropdownItem
                 startContent={<MdLiveHelp size={16} />}
                 key="help_and_feedback"
