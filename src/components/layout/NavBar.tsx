@@ -156,7 +156,7 @@ export default function NavBar() {
               >
                 Help & Feedback
               </DropdownItem>
-              {/* TODO: Add a link to the help and feedback page, can reuse from main landing page */}
+              {/* TODO: Add a link to the help and feedback page, use main landing page */}
               <DropdownItem
                 startContent={<MdLogout size={16} />}
                 key="logout"
