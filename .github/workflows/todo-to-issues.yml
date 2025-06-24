@@ -1,21 +1,39 @@
-name: TODO to Issue
-
-permissions:
-  contents: read
-  issues: write # 👈 REQUIRED for issue creation
+name: "Run TODO to Issue"
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch: {}
+    branches: [main]
 
 jobs:
-  todo:
+  build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
 
-      - name: Create TODO issues
-        uses: alstr/todo-to-issue-action@v4
+    permissions:
+      contents: write # Needed for committing updated TODOs
+      issues: write # To create and close issues
+      # pull-requests: write    # Needed if you ever expand to PR triggers
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: TODO to Issue
+        uses: alstr/todo-to-issue-action@v5.1.12
+        with:
+          INSERT_ISSUE_URLS: "true"
+          CLOSE_ISSUES: "true"
+          INCLUDE: "**/*.ts,**/*.tsx"
+          LABEL: "todo"
+
+      - name: Set Git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and Push Changes
+        run: |
+          git add -A
+          if [[ `git status --porcelain` ]]; then
+            git commit -m "Automatically added GitHub issue links to TODOs"
+            git push origin main
+          else
+            echo "No changes to commit"
