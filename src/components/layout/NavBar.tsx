@@ -43,7 +43,7 @@ export default function App() {
 
   return (
     // TODO: make this navbar responsive
-    // Use menu feature from HeroUI
+    // Use menu feature from HeroUI, ensures everything is responsive except brand component
     <Navbar isBordered className="mx-auto p-0" maxWidth="full">
       {/* Brand */}
       <NavbarContent justify="start">
