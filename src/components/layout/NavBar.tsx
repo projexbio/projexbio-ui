@@ -42,6 +42,8 @@ export default function App() {
   ];
 
   return (
+    // TODO: make this navbar responsive
+    // Use menu feature from HeroUI
     <Navbar isBordered className="mx-auto p-0" maxWidth="full">
       {/* Brand */}
       <NavbarContent justify="start">
@@ -78,7 +80,7 @@ export default function App() {
 
       {/* Upload Project & User Profile related dropdown */}
       <NavbarContent justify="end">
-        <NavbarItem>
+        <NavbarItem className="h-10">
           <Button
             className="rounded-full pl-1"
             color="primary"
@@ -107,7 +109,7 @@ export default function App() {
                 startContent={<FaUser size={16} />}
                 href={`/${user?.username}`}
               >
-                <p className="font-semibold">Go to your Profile</p>
+                <p className="font-semibold">View Profile</p>
               </DropdownItem>
               {/* TODO: Add a link to the settings page */}
               <DropdownItem

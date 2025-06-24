@@ -3,9 +3,8 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-// TODO: remove this loading from everywhere and use loader from HeroUI
-// TODO: remove this loading from everywhere and use loader from HeroUI
 import Loading from "@/components/ui/Loading";
+// TODO: remove this loading from everywhere and use loader from HeroUI
 
 export default function ProtectedLayout({
   children,

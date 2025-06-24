@@ -75,8 +75,8 @@ const CollegeInfo: React.FC = () => {
 
   const handleCollegeSelect = (value: string) => {
     if (value === "request-college") {
-      // TODO: Add form link
       router.push("https://forms.google.com/your-form-link");
+      // TODO: Add form link
       return;
     }
     setOnboardingData({ collegeId: value });
