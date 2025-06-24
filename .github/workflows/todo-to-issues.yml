@@ -1,0 +1,17 @@
+name: TODO to Issue
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+jobs:
+  todo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create TODO issues
+        uses: alstr/todo-to-issue-action@v4

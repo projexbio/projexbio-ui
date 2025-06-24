@@ -8,9 +8,9 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen">
+    <div>
       <NavBar />
-      <main className="container mx-auto px-4 py-8">
+      <main>
         {children}
         {children}
         {children}

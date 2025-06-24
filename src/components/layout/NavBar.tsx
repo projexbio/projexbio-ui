@@ -105,7 +105,7 @@ export default function App() {
                 key="profile"
                 textValue="Profile"
                 startContent={<FaUser size={16} />}
-                href={`/profile/${user?.username}`}
+                href={`/${user?.username}`}
               >
                 <p className="font-semibold">Go to your Profile</p>
               </DropdownItem>
