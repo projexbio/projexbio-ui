@@ -34,7 +34,7 @@ export default function NavBar() {
     isLoading: userLoading,
     error: userError,
   } = useCurrentUser();
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
 
   const themes = [
     {
@@ -52,12 +52,16 @@ export default function NavBar() {
   ];
 
   return (
-    <Navbar isBordered className="mx-auto p-0" maxWidth="full">
+    <Navbar isBordered className="mx-auto p-0 h-14" maxWidth="full">
       {/* Brand */}
       <NavbarContent justify="start">
         <NavbarBrand className="mr-4">
           <Image
-            src="/android-chrome-512x512.png"
+            src={
+              resolvedTheme === "dark"
+                ? "/assets/logo/white-without-bg.png"
+                : "/assets/logo/black-without-bg.png"
+            }
             alt="ProjexBio Logo"
             height={36}
             width={36}
@@ -73,7 +77,7 @@ export default function NavBar() {
       <NavbarContent justify="center">
         <Input
           classNames={{
-            base: "max-w-full sm:max-w-[500px] md:w-md lg:w-lg h-10",
+            base: "max-w-full sm:max-w-[500px] md:w-md h-9",
             mainWrapper: "h-full",
             inputWrapper: "h-full font-normal text-default-500",
             input: "text-secondary",
@@ -88,11 +92,12 @@ export default function NavBar() {
 
       {/* Upload Project & User Profile related dropdown */}
       <NavbarContent justify="end">
-        <NavbarItem className="h-10">
+        <NavbarItem className="h-8">
           <Button
             className="rounded-full pl-1"
             color="primary"
-            startContent={<FaCirclePlus size={42} />}
+            size="sm"
+            startContent={<FaCirclePlus size={25} />}
           >
             Upload Project
           </Button>
