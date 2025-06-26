@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Input, Tooltip, Chip } from "@heroui/react";
-import { useAuth } from "../../contexts/AuthContext";
 import { FaUpload } from "react-icons/fa";
 import Image from "next/image";
 import { UserService } from "../../lib/api/users";
 import { useOnboardingStore } from "@/store/onboardingStore";
+import { useAppwriteUser } from "@/lib/query/useAppwriteUser";
 
 const PersonalInfo: React.FC = () => {
-  const { appwriteUser } = useAuth();
+  const { data: appwriteUser } = useAppwriteUser();
   const { onboardingData, setOnboardingData } = useOnboardingStore();
   const [photoPreview, setPhotoPreview] = useState<string>("");
   const [error, setError] = useState<string>("");

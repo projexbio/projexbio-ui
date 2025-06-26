@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Autocomplete,
   AutocompleteItem,
@@ -11,7 +11,7 @@ import {
   DatePicker,
 } from "@heroui/react";
 import { useOnboardingStore } from "@/store/onboardingStore";
-import { CollegeService, College } from "@/lib/api/colleges";
+import { useColleges } from "@/lib/query/useColleges";
 import {
   EmailVerificationService,
   OTPContext,
@@ -27,8 +27,11 @@ const CollegeInfo: React.FC = () => {
   const router = useRouter();
   const { onboardingData, setOnboardingData } = useOnboardingStore();
 
-  const [colleges, setColleges] = useState<College[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    data: colleges = [],
+    isLoading: loading,
+    error: collegeError,
+  } = useColleges();
   const [error, setError] = useState<string>("");
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [firstOtpSent, setFirstOtpSent] = useState(false);
@@ -49,29 +52,17 @@ const CollegeInfo: React.FC = () => {
     }),
   );
 
+  // Handle college fetch error
   useEffect(() => {
-    fetchColleges();
-  }, []);
-
-  useEffect(() => {
-    if (otp.length === 6) {
-      handleVerifyOtp();
-    }
-  }, [otp]);
-  const fetchColleges = async () => {
-    try {
-      const { data } = await CollegeService.getAllColleges();
-      setColleges(data);
-    } catch (err) {
+    if (collegeError) {
       setError(
         "Failed to load colleges. Please try again later." +
-          (err instanceof Error ? err.message : "Unknown error"),
+          (collegeError instanceof Error
+            ? collegeError.message
+            : "Unknown error"),
       );
-      console.error("Error fetching colleges:", err);
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [collegeError]);
 
   const handleCollegeSelect = (value: string) => {
     if (value === "request-college") {
@@ -115,7 +106,7 @@ const CollegeInfo: React.FC = () => {
     }
   };
 
-  const handleVerifyOtp = async () => {
+  const handleVerifyOtp = useCallback(async () => {
     if (!otp || !onboardingData.collegeEmail || otp.length !== 6) return;
 
     setIsVerifyingOtp(true);
@@ -136,7 +127,14 @@ const CollegeInfo: React.FC = () => {
     } finally {
       setIsVerifyingOtp(false);
     }
-  };
+  }, [otp, onboardingData.collegeEmail]);
+
+  // Auto-verify OTP when 6 digits are entered
+  useEffect(() => {
+    if (otp.length === 6) {
+      handleVerifyOtp();
+    }
+  }, [otp, handleVerifyOtp]);
 
   const selectedCollege = colleges.find(
     (c) => c.id === onboardingData.collegeId,

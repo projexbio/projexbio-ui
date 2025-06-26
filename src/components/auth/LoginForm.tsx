@@ -4,9 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { client } from "@/lib/appwrite/client";
 import { Account } from "appwrite";
-import { useAuth } from "@/contexts/AuthContext";
 import Link from "next/link";
 import GoogleSignInButton from "./GoogleButton";
+import { refreshAuthData } from "@/lib/query/useRefreshAuth";
+
+// TODO: LOGIN & SIGNUP page - Correct UI according to Theme (light and dark)
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -14,7 +16,6 @@ export default function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { refreshUser } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +31,7 @@ export default function LoginForm() {
       const account = new Account(client);
       await account.createEmailPasswordSession(email, password);
 
-      await refreshUser();
+      await refreshAuthData();
 
       router.push("/explore");
     } catch (err: unknown) {

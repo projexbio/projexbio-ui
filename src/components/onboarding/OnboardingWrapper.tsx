@@ -7,15 +7,15 @@ import CollegeInfo from "@/components/onboarding/CollegeInfo";
 import { useOnboardingStore } from "@/store/onboardingStore";
 import { Button, Spinner, Alert } from "@heroui/react";
 import { UserService } from "@/lib/api/users";
-import { useAuth } from "@/contexts/AuthContext";
 import { OnboardingPayloadSchema } from "@/types/user";
 import { handleApiError } from "@/lib/utils/errorHandler";
+import { useAppwriteUser } from "@/lib/query/useAppwriteUser";
 
 const OnboardingWrapper: React.FC<{ onComplete: (name: string) => void }> = ({
   onComplete,
 }) => {
   const { resetStore, onboardingData } = useOnboardingStore();
-  const { appwriteUser } = useAuth();
+  const { data: appwriteUser } = useAppwriteUser();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");

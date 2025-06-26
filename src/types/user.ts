@@ -45,3 +45,22 @@ export interface OnboardingResponse {
   success: boolean;
   message: string;
 }
+
+// Main User interface for authenticated users
+export interface User {
+  id: string;
+  firstName?: string;
+  middleName?: string;
+  lastName?: string;
+  username?: string;
+  email: string;
+  appwriteId: string;
+  avatarUrl?: string;
+  isSuperAdmin?: boolean;
+  githubUsername?: string;
+  college?: string;
+  websiteUrl?: string;
+  authProvider?: string;
+  createdAt: string;
+  updatedAt: string;
+}

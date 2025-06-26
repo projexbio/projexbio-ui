@@ -2,6 +2,7 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Button } from "@heroui/react";
+import Link from "next/link";
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
@@ -15,6 +16,7 @@ export default function HomePage() {
 
   return (
     <div>
+      <Link href="/">Home</Link>
       The current theme is: {theme}
       <button onClick={() => setTheme("light")}>Light Mode</button>
       <button onClick={() => setTheme("dark")}>Dark Mode</button>

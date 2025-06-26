@@ -15,17 +15,25 @@ import {
 import Image from "next/image";
 import { FaSearch } from "react-icons/fa";
 import { FaCirclePlus, FaUser } from "react-icons/fa6";
-import { useAuth } from "@/contexts/AuthContext";
 import { FcSettings } from "react-icons/fc";
 import { MdLiveHelp } from "react-icons/md";
 import { MdLightMode, MdDarkMode, MdLogout } from "react-icons/md";
 import { GrSystem } from "react-icons/gr";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
+import { useCurrentUser } from "@/lib/query/useCurrentUser";
+import { useLogout } from "@/lib/query/useAppwriteUser";
 
 // TODO: make this whole navbar responsive
 // Use menu feature from HeroUI, ensures everything is responsive except brand component
 export default function NavBar() {
-  const { user, logout } = useAuth();
+  const router = useRouter();
+  const { mutate: logout, isPending: isLoggingOut } = useLogout();
+  const {
+    data: user,
+    isLoading: userLoading,
+    error: userError,
+  } = useCurrentUser();
   const { theme, setTheme } = useTheme();
 
   const themes = [
@@ -97,19 +105,34 @@ export default function NavBar() {
                 as="button"
                 className="transition-transform"
                 color="secondary"
-                name="Jason Hughes"
+                name={
+                  userLoading ? "" : user?.firstName?.charAt(0).toUpperCase()
+                }
                 size="sm"
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                src={user?.avatarUrl}
               />
             </DropdownTrigger>
-            <DropdownMenu aria-label="Profile Actions" variant="flat">
+            <DropdownMenu
+              aria-label="Profile Actions"
+              variant="flat"
+              disabledKeys={[
+                ...(userLoading || !user?.username ? ["profile"] : []),
+                ...(isLoggingOut ? ["logout"] : []),
+              ]}
+            >
               <DropdownItem
                 key="profile"
                 textValue="Profile"
                 startContent={<FaUser size={16} />}
-                href={`/${user?.username}`}
+                onPress={() => router.push(`/${user?.username}`)}
               >
-                <p className="font-semibold">View Profile </p>
+                <p className="font-semibold">
+                  {userLoading
+                    ? "Loading..."
+                    : userError
+                      ? "Profile unavailable"
+                      : "View Profile"}
+                </p>
               </DropdownItem>
               {/* TODO: Add a link to the settings page (different from profile page) */}
               <DropdownItem
@@ -160,10 +183,10 @@ export default function NavBar() {
                 startContent={<MdLogout size={16} />}
                 key="logout"
                 color="danger"
-                onPress={logout}
+                onPress={() => logout()}
                 textValue="Log Out"
               >
-                Log Out
+                {isLoggingOut ? "Logging out..." : "Log Out"}
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>

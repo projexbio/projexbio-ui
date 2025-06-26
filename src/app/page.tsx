@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useAuth } from "@/contexts/AuthContext";
 import { Spinner } from "@heroui/react";
+import { useAppwriteUser } from "@/lib/query/useAppwriteUser";
 
+// TODO: Add logout button when user is logged in
 export default function Home() {
-  const { appwriteUser, loading: authLoading } = useAuth();
+  const { data: appwriteUser, isLoading: authLoading } = useAppwriteUser();
   const isLoggedIn = !!appwriteUser;
 
   return (

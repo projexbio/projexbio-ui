@@ -2,14 +2,16 @@
 
 import OnboardingWrapper from "@/components/onboarding/OnboardingWrapper";
 import { Spinner } from "@heroui/react";
-import { useAuth } from "@/contexts/AuthContext";
 import { Link as LinkButton } from "@heroui/react";
 import { IoIosLogOut } from "react-icons/io";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useLogout } from "@/lib/query/useAppwriteUser";
+
+// TODO: Correct UI according to Theme (light and dark)
 
 export default function OnboardingPage() {
-  const { logout, isLoggingOut } = useAuth();
+  const { mutate: logout, isPending: isLoggingOut } = useLogout();
   const router = useRouter();
 
   const [showWelcome, setShowWelcome] = useState(false);
@@ -52,7 +54,7 @@ export default function OnboardingPage() {
 
         <div className="absolute top-4 right-4 z-10">
           <LinkButton
-            onPress={logout}
+            onPress={() => logout()}
             className="hover:text-red-300 cursor-pointer flex items-center"
             color="danger"
             isDisabled={isLoggingOut}
