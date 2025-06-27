@@ -84,5 +84,5 @@ export default function ProtectedLayout({
     return null;
   }
 
-  return <>{children}</>;
+  return <div className="h-full">{children}</div>;
 }

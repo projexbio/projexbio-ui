@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Navbar,
   NavbarBrand,
@@ -15,7 +17,6 @@ import {
 import Image from "next/image";
 import { FaSearch } from "react-icons/fa";
 import { FaCirclePlus, FaUser } from "react-icons/fa6";
-import { FcSettings } from "react-icons/fc";
 import { MdLiveHelp } from "react-icons/md";
 import { MdLightMode, MdDarkMode, MdLogout } from "react-icons/md";
 import { GrSystem } from "react-icons/gr";
@@ -52,7 +53,12 @@ export default function NavBar() {
   ];
 
   return (
-    <Navbar isBordered className="mx-auto p-0 h-14" maxWidth="full">
+    // make bg slight transparent
+    <Navbar
+      isBordered
+      className="mx-auto p-0 h-14 bg-sidebar/70 backdrop-blur-lg"
+      maxWidth="full"
+    >
       {/* Brand */}
       <NavbarContent justify="start">
         <NavbarBrand className="mr-4">
@@ -138,14 +144,6 @@ export default function NavBar() {
                       ? "Profile unavailable"
                       : "View Profile"}
                 </p>
-              </DropdownItem>
-              {/* TODO: Add a link to the settings page (different from profile page) */}
-              <DropdownItem
-                startContent={<FcSettings size={16} />}
-                key="settings"
-                textValue="Settings"
-              >
-                Settings
               </DropdownItem>
               <DropdownItem
                 className="pl-0"
