@@ -15,7 +15,7 @@ export default function HomePage() {
   if (!mounted) return null;
 
   return (
-    <div className="bg-red-500 h-fit">
+    <div>
       <Link href="/">Home</Link>
       The current theme is: {theme}
       <button onClick={() => setTheme("light")}>Light Mode</button>

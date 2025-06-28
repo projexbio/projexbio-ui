@@ -7,6 +7,7 @@ import { IoIosLogOut } from "react-icons/io";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLogout } from "@/lib/query/useAppwriteUser";
+import { refreshAuthData } from "@/lib/query/useRefreshAuth";
 
 // TODO: Correct UI according to Theme (light and dark)
 
@@ -32,8 +33,9 @@ export default function OnboardingPage() {
       setShowText(true);
     }, 3000);
 
-    // Redirect after text fade-out completes (2s) = 5s total
-    setTimeout(() => {
+    // Refresh auth data and redirect after animation completes
+    setTimeout(async () => {
+      await refreshAuthData();
       router.push("/explore");
     }, 5000);
   };

@@ -13,9 +13,10 @@ import {
   Avatar,
   Button,
   Tooltip,
+  Badge,
 } from "@heroui/react";
 import Image from "next/image";
-import { FaSearch } from "react-icons/fa";
+import { FaBell, FaSearch } from "react-icons/fa";
 import { FaCirclePlus, FaUser } from "react-icons/fa6";
 import { MdLiveHelp } from "react-icons/md";
 import { MdLightMode, MdDarkMode, MdLogout } from "react-icons/md";
@@ -24,6 +25,8 @@ import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { useCurrentUser } from "@/lib/query/useCurrentUser";
 import { useLogout } from "@/lib/query/useAppwriteUser";
+
+// TODO: Make navabr responsive
 
 // TODO: make this whole navbar responsive
 // Use menu feature from HeroUI, ensures everything is responsive except brand component
@@ -83,7 +86,7 @@ export default function NavBar() {
       <NavbarContent justify="center">
         <Input
           classNames={{
-            base: "max-w-full sm:max-w-[500px] md:w-md h-9",
+            base: "sm:max-w-[500px] md:w-sm lg:w-md h-9",
             mainWrapper: "h-full",
             inputWrapper: "h-full font-normal text-default-500",
             input: "text-secondary",
@@ -96,8 +99,21 @@ export default function NavBar() {
         />
       </NavbarContent>
 
-      {/* Upload Project & User Profile related dropdown */}
+      {/* Notifications & Upload Project & User Profile related dropdown */}
       <NavbarContent justify="end">
+        <NavbarItem>
+          <Button
+            isIconOnly
+            variant="light"
+            radius="full"
+            size="sm"
+            className="overflow-visible"
+          >
+            <Badge content="63" color="danger" size="sm">
+              <FaBell size={16} />
+            </Badge>
+          </Button>
+        </NavbarItem>
         <NavbarItem className="h-8">
           <Button
             className="rounded-full pl-1"
