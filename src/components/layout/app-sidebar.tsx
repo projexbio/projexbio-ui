@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import { FiHome } from "react-icons/fi";
 import { useLogout } from "@/lib/query/useAppwriteUser";
+import Link from "next/link";
 
 import {
   Sidebar,
@@ -168,10 +169,10 @@ export function AppSidebar() {
               {applicationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild tooltip={item.title}>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -185,10 +186,10 @@ export function AppSidebar() {
               {userItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild tooltip={item.title}>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -202,10 +203,10 @@ export function AppSidebar() {
               {facultyTools.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild tooltip={item.title}>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -223,10 +224,10 @@ export function AppSidebar() {
                   tooltip={item.tooltip ?? item.title}
                   className={item.className}
                 >
-                  <a href={item.url}>
+                  <Link href={item.url}>
                     <item.icon />
                     <span>{item.title}</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               ) : (
                 <SidebarMenuButton
