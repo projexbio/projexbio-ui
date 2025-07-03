@@ -73,7 +73,7 @@ export default function Features() {
       {/* Features Section */}
       <section className="py-16 px-6">
         <div className="max-w-7xl mx-auto text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold font-anton text-black mb-2">
+          <h2 className="text-4xl md:text-5xl font-bold  text-black mb-2">
             ProjexBio Features
           </h2>
           <p className="text-gray-600 text-lg">
@@ -108,7 +108,7 @@ export default function Features() {
       {/* How It Works Section */}
       <section className="py-16 px-6 border-t border-gray-300">
         <div className="max-w-7xl mx-auto text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold font-anton text-black mb-2">
+          <h2 className="text-4xl md:text-5xl font-bold text-black mb-2">
             How It Works?
           </h2>
           <p className="text-gray-600 text-lg">

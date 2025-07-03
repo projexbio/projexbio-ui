@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { Inter, Anton } from "next/font/google";
+import { Inter } from "next/font/google";
 import "@ant-design/v5-patch-for-react-19";
 import "./globals.css";
-import "./styles/noise.css";  // Add this import
 import { Providers } from "./providers";
 
 const inter = Inter({
@@ -10,12 +9,6 @@ const inter = Inter({
   display: "swap",
   fallback: ["system-ui"],
   variable: "--font-inter",
-});
-
-const anton = Anton({
-  weight: '400',
-  subsets: ['latin'],
-  variable: "--font-anton",
 });
 
 export const metadata: Metadata = {
@@ -36,8 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${anton.variable}`}>
-      <body className="min-h-screen bg-black antialiased">
+    <html lang="en" className={`${inter.variable} antialiased`}>
+      <body className="min-h-screen">
         <div className="noise">
           <Providers>{children}</Providers>
         </div>

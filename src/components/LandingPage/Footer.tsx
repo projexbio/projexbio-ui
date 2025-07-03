@@ -12,7 +12,7 @@ export default function Footer() {
         <div className="flex items-center space-x-4 mb-6 md:mb-0">
           <Image src="/blackLogo.png" alt="Logo" width={60} height={60} />
           <div>
-            <h1 className="text-3xl font-bold font-anton">PROJEXBIO</h1>
+            <h1 className="text-3xl font-bold">PROJEXBIO</h1>
             <p className="text-medium text-gray-300">
               Empowering Projects Across Campuses
             </p>

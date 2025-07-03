@@ -2,7 +2,6 @@ import Image from "next/image";
 import Navbar from "@/components/LandingPage/Navbar";
 import Footer from "@/components/LandingPage/Footer";
 import ActionButtons from "@/components/LandingPage/ActionButtons";
-import "./styles/noise.css";
 import Features from "@/components/LandingPage/Features";
 import FAQSection from "@/components/LandingPage/FAQSection";
 
@@ -15,7 +14,7 @@ export default function Home() {
         <div className="grid md:grid-cols-2 gap-12 items-center mb-12">
           {/* Left Content */}
           <div className="space-y-8">
-            <h1 className="font-anton text-5xl md:text-6xl font-normal text-white leading-tight">
+            <h1 className="text-5xl md:text-6xl font-normal text-white leading-tight">
               Empowering Projects
               <br />
               Across Campuses
@@ -24,7 +23,7 @@ export default function Home() {
               ProjexBio helps students build a project portfolio, collaborate
               with peers, and submit work for assignments.
               <br />
-              <span className="font-anton font-semibold text-white">
+              <span className=" font-semibold text-white">
                 Showcase. Collaborate. Submit.
               </span>
             </p>
@@ -39,7 +38,6 @@ export default function Home() {
               width={800}
               height={600}
               className="rounded-2xl shadow-lg w-full h-auto"
-              priority
             />
           </div>
         </div>
