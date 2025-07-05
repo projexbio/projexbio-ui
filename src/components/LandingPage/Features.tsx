@@ -7,25 +7,25 @@ export default function Features() {
       title: "Student Project Portfolio",
       description:
         "Your personal space to showcase all your tech projects, with your bio, college, and collaboration status.",
-      image: "/features/portfolio.png",
+      image: "/features/portfolio.svg",
     },
     {
       title: "Team Up & Collaborate",
       description:
         'Invite others to contribute or mark your project as "looking for contributors" to build something great together.',
-      image: "/features/collaborate.png",
+      image: "/features/team.svg",
     },
     {
       title: "College Projects Explorer",
       description:
         "Discover what students are building in your college — or browse cool projects from other campuses too.",
-      image: "/features/explorer.png",
+      image: "/features/project.svg",
     },
     {
       title: "Smart Assignment Submission",
       description:
         "Turn in class assignments or contest entries through structured faculty hubs — no messy forms.",
-      image: "/features/submission.png",
+      image: "/features/assignment.svg",
     },
   ];
 
@@ -37,7 +37,7 @@ export default function Features() {
         "<strong>Students:</strong> Choose/Req your institute & create your project portfolio.",
         "<strong>Faculty:</strong> Create an educator account, verify your college, and control your institute.",
       ],
-      image: "/howitworks/signup.png",
+      image: "/features/signup.svg",
     },
     {
       step: "02",
@@ -46,7 +46,7 @@ export default function Features() {
         "<strong>Students:</strong> Add your projects with title, description, GitHub link, tech stack—you’ll also mark if you’re “looking for contributors.”",
         "<strong>Faculty:</strong> Create assignment hubs or contest pages, with details & deadlines.",
       ],
-      image: "/howitworks/submit.png",
+      image: "/features/build.svg",
     },
     {
       step: "03",
@@ -95,8 +95,8 @@ export default function Features() {
                 <Image
                   src={feature.image}
                   alt={feature.title}
-                  width={250}
-                  height={250}
+                  width={270}
+                  height={270}
                   className="object-contain"
                 />
               </div>

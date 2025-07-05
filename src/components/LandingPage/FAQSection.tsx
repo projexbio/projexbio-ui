@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Accordion, AccordionItem } from "@heroui/react";
 
 const faqs = [
   {
@@ -19,44 +19,29 @@ const faqs = [
 ];
 
 export default function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex((prev) => (prev === index ? null : index));
-  };
-
   return (
     <section className="py-20 px-6 bg-[#f5f5f5] border-t border-gray-300">
       <div className="max-w-4xl mx-auto text-center mb-10">
         <h2 className="text-4xl md:text-5xl font-bold text-black mb-2">
-          FAQ’s/Address Objections
+          FAQs/Address Objections
         </h2>
         <p className="text-gray-600 text-lg">
           Clear FAQs reduce hesitation and build confidence
         </p>
       </div>
 
-      <div className="max-w-3xl mx-auto space-y-4">
-        {faqs.map((faq, i) => (
-          <div
-            key={i}
-            className="border border-black rounded-xl transition-all duration-300"
-          >
-            <button
-              onClick={() => toggleFAQ(i)}
-              className="w-full text-left px-6 py-4 text-lg font-medium flex justify-between items-center"
+      <div className="max-w-3xl mx-auto">
+        <Accordion>
+          {faqs.map((faq, i) => (
+            <AccordionItem
+              key={i}
+              title={faq.question}
+              className="border border-black rounded-3xl transition-all duration-300 bg-white px-4 py-2 text-large font-medium mb-4"
             >
-              <span>{faq.question}</span>
-              <span>{openIndex === i ? "▲" : "▼"}</span>
-            </button>
-
-            {openIndex === i && (
-              <div className="px-6 pb-4 text-gray-700 transition-all duration-300">
-                {faq.answer}
-              </div>
-            )}
-          </div>
-        ))}
+              <div className="pt-2 px-1">{faq.answer}</div>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
     </section>
   );
