@@ -1,41 +1,53 @@
 "use client";
 
 import Link from "next/link";
-import { useAuth } from "@/contexts/AuthContext";
-import { Spinner } from "@heroui/react";
+import { Button, Spinner } from "@heroui/react";
 import { FaGithub } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
 import "@/app/styles/pearl-button.css";
 
+// Fetch user from your API route
+const fetchUser = async () => {
+  const res = await fetch("/api/auth/me");
+  if (!res.ok) return null;
+  return res.json();
+};
+
 export default function ActionButtons() {
-  const { appwriteUser, loading: authLoading } = useAuth();
-  const isLoggedIn = !!appwriteUser;
+  const { data: user, isLoading } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUser,
+  });
 
   return (
     <div className="flex gap-8 items-center">
-      {authLoading ? (
+      {isLoading ? (
         <Spinner variant="wave" />
       ) : (
         <>
-          {isLoggedIn ? (
+          {user ? (
             <Link href="/dashboard">
-              <button className="px-6 py-3 bg-brand-purple text-white rounded-full font-medium shadow-md hover:bg-purple-600">
+              <Button
+                variant="solid"
+                className="px-6 py-3 bg-primary text-white rounded-full font-medium shadow-md hover:bg-purple-600"
+              >
                 Go to Dashboard
-              </button>
+              </Button>
             </Link>
           ) : (
             <Link href="/signup">
-              <button className="pearl-button">
+              <Button className="pearl-button bg-primary text-white hover:bg-primary min-w-[220px] h-[56px] flex items-center justify-center">
                 <div className="wrap">
                   <p>Register your Institute</p>
                 </div>
-              </button>
+              </Button>
             </Link>
           )}
-          <Link href="https://github.com/projexbio">
-            <button className="px-6 py-3 border border-gray-400 text-white rounded-large hover:bg-white hover:text-black transition flex items-center">
-              <FaGithub className="h-7 w-7 text-brand-purple" />
+          <Link href="https://github.com/projexbio" target="_blank">
+            <Button className="px-6 py-3 border border-gray-400 text-black rounded-large hover:bg-white hover:text-black transition flex items-center bg-secondary min-w-[180px] h-[40px] ml-0 md:ml-0">
+              <FaGithub className="h-7 w-7 text-black" />
               <span className="ml-2">Contribute</span>
-            </button>
+            </Button>
           </Link>
         </>
       )}

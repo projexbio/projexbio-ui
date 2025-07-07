@@ -2,15 +2,15 @@
 
 import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext";
 import Loading from "@/components/ui/Loading";
+import { useAppwriteUser } from "@/lib/query/useAppwriteUser";
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { appwriteUser, loading } = useAuth();
+  const { data: appwriteUser, isLoading: loading } = useAppwriteUser();
   const router = useRouter();
   const pathname = usePathname();
 

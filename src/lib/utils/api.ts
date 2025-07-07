@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getJWT } from "./jwt";
+import { getJWT } from "@/lib/query/useJWT";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -31,7 +31,7 @@ api.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

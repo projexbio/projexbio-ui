@@ -20,10 +20,10 @@ const faqs = [
 
 export default function FAQSection() {
   return (
-    <section className="py-20 px-6 bg-[#f5f5f5] border-t border-gray-300">
+    <section className="pb-20 px-6 bg-[#f5f5f5] ">
       <div className="max-w-4xl mx-auto text-center mb-10">
         <h2 className="text-4xl md:text-5xl font-bold text-black mb-2">
-          FAQs/Address Objections
+          FAQs / Address Objections
         </h2>
         <p className="text-gray-600 text-lg">
           Clear FAQs reduce hesitation and build confidence
@@ -35,10 +35,14 @@ export default function FAQSection() {
           {faqs.map((faq, i) => (
             <AccordionItem
               key={i}
-              title={faq.question}
-              className="border border-black rounded-3xl transition-all duration-300 bg-white px-4 py-2 text-large font-medium mb-4"
+              title={
+                <span className="text-lg font-semibold text-black">
+                  {faq.question}
+                </span>
+              }
+              className="border border-black rounded-3xl transition-all duration-300 bg-white text-black px-4 py-2 font-medium mb-4"
             >
-              <div className="pt-2 px-1">{faq.answer}</div>
+              <div className="pt-2 px-2 text-black text-base">{faq.answer}</div>
             </AccordionItem>
           ))}
         </Accordion>

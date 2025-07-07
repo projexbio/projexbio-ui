@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "@ant-design/v5-patch-for-react-19";
 import "./globals.css";
 import { Providers } from "./providers";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,11 +30,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} antialiased`}>
-      <body className="min-h-screen">
-        <div className="noise">
-          <Providers>{children}</Providers>
-        </div>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.variable} antialiased`}>
+        <Providers>{children}</Providers>
+        <Analytics />
       </body>
     </html>
   );

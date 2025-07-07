@@ -1,8 +1,7 @@
 /* styles/pearl-button.css */
 
 .pearl-button {
-  --brand-purple: #8c52ff;
-  --brand-blue: #4f46e5;
+  --primary: #7828c8;
   --bg: #080808;
   --radius: 100px;
   outline: none;
@@ -10,12 +9,8 @@
   border: 0;
   position: relative;
   border-radius: var(--radius);
-  background: linear-gradient(135deg, var(--brand-purple), var(--brand-blue));
+  background: linear-gradient(135deg, var(--primary), var(--primary));
   transition: all 0.2s ease;
-  box-shadow:
-    inset 0 0.3rem 0.9rem rgba(140, 82, 255, 0.3),
-    inset 0 -0.1rem 0.3rem rgba(0, 0, 0, 0.7),
-    0 3rem 3rem rgba(0, 0, 0, 0.3);
 }
 
 .pearl-button .wrap {
@@ -59,7 +54,7 @@
 }
 
 .pearl-button:hover {
-  background: linear-gradient(135deg, var(--brand-blue), var(--brand-purple));
+  background: linear-gradient(135deg, var(--primary), var(--primary));
 }
 
 .pearl-button:hover .wrap::before {

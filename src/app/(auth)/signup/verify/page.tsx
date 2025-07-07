@@ -7,10 +7,12 @@ import {
   sendVerificationEmail,
 } from "@/lib/appwrite/auth";
 import { Alert, Spin } from "antd";
-import { useAuth } from "@/contexts/AuthContext";
 import Loading from "@/components/ui/Loading";
 import { Button } from "@heroui/react";
+import { useAppwriteUser } from "@/lib/query/useAppwriteUser";
+import { refreshAuthData } from "@/lib/query/useRefreshAuth";
 
+// TODO: Add logout button when user dont want to verify page
 export default function VerifyEmailPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -24,7 +26,8 @@ export default function VerifyEmailPage() {
     success: boolean;
     message: string;
   }>({ show: false, success: false, message: "" });
-  const { appwriteUser, loading, refreshUser } = useAuth();
+  const { data: appwriteUser, isLoading: loading } = useAppwriteUser();
+
   const [verificationAttempted, setVerificationAttempted] = useState(false);
   const redirectingRef = useRef(false);
 
@@ -59,7 +62,7 @@ export default function VerifyEmailPage() {
           setVerificationStatus("success");
 
           // Refresh user data to get updated verification status
-          await refreshUser();
+          await refreshAuthData();
 
           // Set the redirecting flag before starting redirect process
           redirectingRef.current = true;
@@ -73,7 +76,7 @@ export default function VerifyEmailPage() {
           setVerificationStatus("error");
           if (error instanceof Error) {
             setErrorMessage(
-              error.message || "Failed to verify email. Please try again."
+              error.message || "Failed to verify email. Please try again.",
             );
           } else {
             setErrorMessage("An unknown error occurred. Please try again.");
@@ -98,7 +101,7 @@ export default function VerifyEmailPage() {
     loading,
     appwriteUser,
     verificationAttempted,
-    refreshUser,
+    refreshAuthData,
   ]);
 
   const handleResendEmail = async () => {
