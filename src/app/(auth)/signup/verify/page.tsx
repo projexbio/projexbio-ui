@@ -69,6 +69,7 @@ export default function VerifyEmailPage() {
 
           // Redirect after success message
           setTimeout(() => {
+            // made a change here for redirecting to onborading instead of explore
             router.push("/explore");
           }, 1000);
         } catch (error: unknown) {

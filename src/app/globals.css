@@ -122,3 +122,31 @@
 body {
   font-family: var(--font-inter);
 }
+
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+@font-face {
+  font-family: "Blanka";
+  src: url("/fonts/Blanka-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Norwester";
+  src: url("/fonts/Norwester-eRV6.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-blanka {
+  font-family: "Blanka", sans-serif;
+}
+.font-norwester {
+  font-family: "Norwester", sans-serif;
+}

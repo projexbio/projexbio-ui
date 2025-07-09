@@ -2,20 +2,10 @@
 
 import Link from "next/link";
 import { Button } from "@heroui/react";
-import { useQuery } from "@tanstack/react-query";
-
-// Fetch user from your API route
-const fetchUser = async () => {
-  const res = await fetch("/api/auth/me");
-  if (!res.ok) return null;
-  return res.json();
-};
+import { useCurrentUser } from "@/lib/query/useCurrentUser";
 
 const AuthButtons = () => {
-  const { data: user, isLoading } = useQuery({
-    queryKey: ["user"],
-    queryFn: fetchUser,
-  });
+  const { data: user, isLoading } = useCurrentUser();
 
   if (isLoading) {
     return (
@@ -32,7 +22,7 @@ const AuthButtons = () => {
   return (
     <>
       {user ? (
-        <Link href="/dashboard">
+        <Link href="/explore">
           <Button
             variant="solid"
             className="px-4 py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-brand-blue transition"

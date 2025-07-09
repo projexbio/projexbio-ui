@@ -1,5 +1,4 @@
 import Image from "next/image";
-// import Link from "next/link";
 import { Card, CardHeader, CardBody } from "@heroui/card";
 import HowItWorks from "./HowItWorks";
 
@@ -33,39 +32,44 @@ export default function Features() {
 
   return (
     <div className="bg-[#f5f5f5]">
-      {/* Features Section */}
-      <section className="pt-10 px-6">
-        <div className="max-w-7xl mx-auto text-center mb-6">
-          <h2 className="text-4xl md:text-5xl font-bold  text-black mb-2">
+      <section
+        id="features"
+        className="pt-8 md:pt-10 px-4 sm:px-6 lg:px-8"
+        style={{ scrollMarginTop: "2.5rem" }}
+      >
+        <div className="max-w-7xl mx-auto text-center mb-8">
+          <h2 className="font-norwester text-2xl md:text-4xl font-bold text-black mb-2 tracking-wide">
             ProjexBio Features
           </h2>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
             Powerful tools built for students and educators, with zero cost
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 lg:gap-10 max-w-6xl mx-auto">
           {features.map((feature, idx) => (
             <Card
               key={idx}
-              className="bg-white border border-gray-300 rounded-xl shadow-md p-6 flex flex-col gap-4 text-left"
+              className="w-full max-w-[95%] bg-white border border-gray-300 rounded-xl shadow-sm flex flex-col justify-between h-[330px] md:h-[380px] hover:scale-[1.015] transition-transform duration-900 mx-auto"
             >
-              <CardHeader>
-                <h3 className="text-xl font-semibold text-black">
+              <CardHeader className="p-4 md:p-5">
+                <h3 className="text-sm md:text-lg font-semibold text-black leading-snug">
                   {feature.title}
                 </h3>
               </CardHeader>
-              <CardBody>
-                <p className="text-gray-700">{feature.description}</p>
-                <div
-                  className={`flex justify-center items-center ${idx === 0 || idx === 2 ? "mt-10" : "mt-6"}`}
-                >
+
+              <CardBody className="px-4 md:px-5 text-left flex-1 flex flex-col justify-between p-0 m-0">
+                <p className="text-gray-700 text-xs md:text-sm mb-2">
+                  {feature.description}
+                </p>
+
+                <div className="absolute bottom-0 left-0 w-full h-[160px] md:h-[220px] flex justify-center items-end">
                   <Image
                     src={feature.image}
                     alt={feature.title}
-                    width={idx === 0 || idx === 2 ? 320 : 270}
-                    height={idx === 0 || idx === 2 ? 320 : 270}
-                    className="object-contain"
+                    width={400}
+                    height={300}
+                    className="object-contain w-full h-full"
                   />
                 </div>
               </CardBody>
@@ -74,8 +78,7 @@ export default function Features() {
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <HowItWorks />
+      <HowItWorks id="how-it-works" />
     </div>
   );
 }

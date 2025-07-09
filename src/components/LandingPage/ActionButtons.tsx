@@ -3,21 +3,11 @@
 import Link from "next/link";
 import { Button, Spinner } from "@heroui/react";
 import { FaGithub } from "react-icons/fa";
-import { useQuery } from "@tanstack/react-query";
+import { useCurrentUser } from "@/lib/query/useCurrentUser";
 import "@/app/styles/pearl-button.css";
 
-// Fetch user from your API route
-const fetchUser = async () => {
-  const res = await fetch("/api/auth/me");
-  if (!res.ok) return null;
-  return res.json();
-};
-
 export default function ActionButtons() {
-  const { data: user, isLoading } = useQuery({
-    queryKey: ["user"],
-    queryFn: fetchUser,
-  });
+  const { data: user, isLoading } = useCurrentUser();
 
   return (
     <div className="flex gap-8 items-center">
@@ -26,7 +16,7 @@ export default function ActionButtons() {
       ) : (
         <>
           {user ? (
-            <Link href="/dashboard">
+            <Link href="/explore">
               <Button
                 variant="solid"
                 className="px-6 py-3 bg-primary text-white rounded-full font-medium shadow-md hover:bg-purple-600"

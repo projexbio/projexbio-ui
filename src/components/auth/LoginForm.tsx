@@ -33,6 +33,7 @@ export default function LoginForm() {
 
       await refreshAuthData();
 
+      // commented this as we have to be redirected to the landingpage
       router.push("/explore");
     } catch (err: unknown) {
       if (err instanceof Error) {
