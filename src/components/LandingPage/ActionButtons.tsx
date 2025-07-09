@@ -18,24 +18,29 @@ export default function ActionButtons() {
           {user ? (
             <Link href="/explore">
               <Button
-                variant="solid"
-                className="px-6 py-3 bg-primary text-white rounded-full font-medium shadow-md hover:bg-purple-600"
+                color="primary"
+                className="pearl-button min-w-[220px] h-[56px] flex items-center justify-center"
               >
-                Go to Dashboard
+                <div className="wrap">Go to Dashboard</div>
               </Button>
             </Link>
           ) : (
             <Link href="/signup">
-              <Button className="pearl-button bg-primary text-white hover:bg-primary min-w-[220px] h-[56px] flex items-center justify-center">
-                <div className="wrap">
-                  <p>Register your Institute</p>
-                </div>
+              <Button
+                color="primary"
+                className="pearl-button min-w-[220px] h-[56px] flex items-center justify-center"
+              >
+                <div className="wrap">Register your Institute</div>
               </Button>
             </Link>
           )}
           <Link href="https://github.com/projexbio" target="_blank">
-            <Button className="px-6 py-3 border border-gray-400 text-black rounded-large hover:bg-white hover:text-black transition flex items-center bg-secondary min-w-[180px] h-[40px] ml-0 md:ml-0">
-              <FaGithub className="h-7 w-7 text-black" />
+            <Button
+              color="secondary"
+              variant="solid"
+              className="border border-gray-400 transition flex items-center min-w-[180px] ml-0 md:ml-0"
+            >
+              <FaGithub className="h-7 w-7" />
               <span className="ml-2">Contribute</span>
             </Button>
           </Link>

@@ -28,10 +28,10 @@ export default function Footer() {
             <div className="flex items-center justify-center sm:justify-start text-sm text-gray-300">
               <HiOutlineMail className="mr-2 text-2xl" />
               <a
-                href="mailto:saksham@projexbio.com"
+                href="mailto:jainsaksham1004@gmail.com"
                 className="hover:underline"
               >
-                saksham@projexbio.com
+                jainsaksham1004@gmail.com
               </a>
             </div>
           </div>
@@ -63,7 +63,7 @@ export default function Footer() {
               <Link href="https://x.com/jainsaksham1004" target="_blank">
                 <FaXTwitter className="h-6 w-6 text-white" />
               </Link>
-              <a href="mailto:saksham@projexbio.com">
+              <a href="mailto:jainsaksham1004@gmail.com">
                 <HiOutlineMail className="h-6 w-6 text-white" />
               </a>
             </div>

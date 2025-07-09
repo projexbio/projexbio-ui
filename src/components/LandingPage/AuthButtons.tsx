@@ -36,7 +36,8 @@ const AuthButtons = () => {
             <Link href="/signup">
               <Button
                 variant="solid"
-                className="px-4 py-2 bg-secondary text-black font-semibold text-sm rounded-large hover:bg-gray-200 transition"
+                color="secondary"
+                className="px-4 py-2 font-semibold text-sm rounded-large transition"
               >
                 Join Now
               </Button>

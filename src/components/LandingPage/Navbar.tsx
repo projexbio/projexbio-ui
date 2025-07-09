@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaGithub } from "react-icons/fa";
 import AuthButtons from "./AuthButtons";
-import ThemeToggle from "./ThemeToggle";
+import { Tooltip } from "@heroui/react";
 import {
   Navbar as HeroNavbar,
   NavbarBrand,
@@ -26,21 +26,26 @@ const Navbar = () => {
       style={{ background: "transparent" }}
     >
       <div className="w-full bg-black/90 shadow-lg rounded-3xl px-2 md:px-6 py-2 border-[2.5px] border-[#7828c8] flex items-center justify-between">
-        <NavbarBrand as={Link} href="/" className="flex items-center gap-2">
-          <Image
-            src="/blackLogo.png"
-            alt="ProjexBio Logo"
-            width={48}
-            height={48}
-            className="h-12 w-12 flex-shrink-0"
-          />
-          <span className="font-blanka text-xl md:text-2xl lg:text-3xl font-bold text-primary relative bottom-1">
-            PROJEXBIO
-          </span>
-        </NavbarBrand>
+        <NavbarContent justify="start">
+          <NavbarBrand as={Link} href="/" className="flex items-center gap-2">
+            <Image
+              src="/blackLogo.png"
+              alt="ProjexBio Logo"
+              width={48}
+              height={48}
+              className="h-12 w-12 flex-shrink-0"
+            />
+            <span className="font-blanka text-xl md:text-2xl lg:text-3xl font-bold text-white relative bottom-1">
+              PROJEXBIO
+            </span>
+          </NavbarBrand>
+        </NavbarContent>
 
         {/* Desktop Nav Links */}
-        <NavbarContent className="hidden lg:flex gap-4 lg:gap-8 text-sm font-medium justify-center">
+        <NavbarContent
+          className="hidden lg:flex gap-4 lg:gap-8 text-sm font-medium justify-center"
+          justify="center"
+        >
           {navLinks.map((link) => (
             <NavbarItem key={link.href}>
               <Link
@@ -65,17 +70,13 @@ const Navbar = () => {
               rel="noopener noreferrer"
               className="group relative flex items-center"
             >
-              <FaGithub className="h-9 w-9 text-primary hover:text-secondary transition-colors duration-300" />
-              <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/90 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap shadow-lg z-50">
-                Contribute on GitHub
-              </span>
+              <Tooltip content="Contribute on GitHub" size="sm">
+                <FaGithub className="h-9 w-9 text-primary hover:text-secondary transition-colors duration-300" />
+              </Tooltip>
             </Link>
           </NavbarItem>
           <NavbarItem>
             <AuthButtons />
-          </NavbarItem>
-          <NavbarItem>
-            <ThemeToggle />
           </NavbarItem>
         </NavbarContent>
 

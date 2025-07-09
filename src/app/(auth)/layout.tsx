@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Loading from "@/components/ui/Loading";
 import { useAppwriteUser } from "@/lib/query/useAppwriteUser";
+import { ThemeProvider } from "next-themes";
 
 export default function AuthLayout({
   children,
@@ -35,9 +36,17 @@ export default function AuthLayout({
 
   // Allow verification page to render even if user is logged in
   if (pathname === "/signup/verify") {
-    return <>{children}</>;
+    return (
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <>{children}</>
+      </ThemeProvider>
+    );
   }
 
   // For other auth pages, only render if user is not logged in
-  return !appwriteUser ? <>{children}</> : null;
+  return !appwriteUser ? (
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+      <>{children}</>
+    </ThemeProvider>
+  ) : null;
 }
