@@ -6,6 +6,7 @@ import axios from "axios";
 import Loading from "@/components/ui/Loading";
 import { useAppwriteUser } from "@/lib/query/useAppwriteUser";
 import { useCurrentUser } from "@/lib/query/useCurrentUser";
+import { ThemeProvider } from "next-themes";
 // TODO: remove this loading from everywhere and use loader from HeroUI
 
 export default function ProtectedLayout({
@@ -84,5 +85,9 @@ export default function ProtectedLayout({
     return null;
   }
 
-  return <div className="h-full">{children}</div>;
+  return (
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+      <div className="h-full">{children}</div>
+    </ThemeProvider>
+  );
 }

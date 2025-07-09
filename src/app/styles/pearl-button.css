@@ -1,0 +1,76 @@
+/* styles/pearl-button.css */
+
+.pearl-button {
+  --primary: #7828c8;
+  --bg: #080808;
+  --radius: 100px;
+  outline: none;
+  cursor: pointer;
+  border: 0;
+  position: relative;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--primary), var(--primary));
+  transition: all 0.2s ease;
+}
+
+.pearl-button .wrap {
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
+  padding: 16px 32px;
+  border-radius: inherit;
+  position: relative;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.pearl-button .wrap::before,
+.pearl-button .wrap::after {
+  content: "";
+  position: absolute;
+  transition: all 0.3s ease;
+}
+
+.pearl-button .wrap::before {
+  left: -15%;
+  right: -15%;
+  bottom: 25%;
+  top: -100%;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.pearl-button .wrap::after {
+  left: 6%;
+  right: 6%;
+  top: 12%;
+  bottom: 40%;
+  border-radius: 22px 22px 0 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(0, 0, 0, 0) 50%
+  );
+}
+
+.pearl-button:hover {
+  background: linear-gradient(135deg, var(--primary), var(--primary));
+}
+
+.pearl-button:hover .wrap::before {
+  transform: translateY(-5%);
+}
+
+.pearl-button:hover .wrap::after {
+  opacity: 0.4;
+  transform: translateY(5%);
+}
+
+.pearl-button:active {
+  transform: translateY(2px);
+}
+
+.pearl-button:hover .wrap {
+  background: rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease;
+}
