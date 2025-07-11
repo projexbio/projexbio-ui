@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { Button, Spinner } from "@heroui/react";
 import { FaGithub } from "react-icons/fa";
-import { useCurrentUser } from "@/lib/query/useCurrentUser";
+import { useAppwriteUser } from "@/lib/query/useAppwriteUser";
 import "@/app/styles/pearl-button.css";
 
 export default function ActionButtons() {
-  const { data: user, isLoading } = useCurrentUser();
+  const { data: appwriteUser, isLoading } = useAppwriteUser();
 
   return (
     <div className="flex gap-8 items-center justify-center lg:justify-start">
@@ -15,7 +15,7 @@ export default function ActionButtons() {
         <Spinner variant="wave" />
       ) : (
         <div className="flex gap-4 items-center justify-center flex-wrap">
-          {user ? (
+          {appwriteUser ? (
             <Link href="/explore">
               <Button
                 color="primary"

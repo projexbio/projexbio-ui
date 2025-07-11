@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { Button } from "@heroui/react";
-import { useCurrentUser } from "@/lib/query/useCurrentUser";
+import { useAppwriteUser } from "@/lib/query/useAppwriteUser";
 
 const AuthButtons = () => {
-  const { data: user, isLoading } = useCurrentUser();
+  const { data: appwriteUser, isLoading } = useAppwriteUser();
 
   if (isLoading) {
     return (
@@ -21,7 +21,7 @@ const AuthButtons = () => {
 
   return (
     <>
-      {user ? (
+      {appwriteUser ? (
         <Link href="/explore">
           <Button
             variant="solid"

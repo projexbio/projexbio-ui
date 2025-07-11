@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Account } from "appwrite";
 import { client } from "@/lib/appwrite/client";
 import { queryClient } from "./queryClient";
+import { appwriteUserQueryKeys } from "./useAppwriteUser";
 
 // Query key for JWT
 export const jwtQueryKeys = {
@@ -12,6 +13,7 @@ export const jwtQueryKeys = {
 /**
  * TanStack Query hook for JWT management
  * Automatically refetches JWT every 12 minutes
+ * Only runs if user has an active session
  */
 export const useJWT = () => {
   return useQuery({
@@ -23,6 +25,7 @@ export const useJWT = () => {
     },
     staleTime: 12 * 60 * 1000, // 12 minutes - JWT specific timing
     gcTime: 15 * 60 * 1000, // 15 minutes - JWT specific timing
+    retry: false, // Don't retry if no session
   });
 };
 
@@ -32,7 +35,17 @@ export const useJWT = () => {
  * Uses TanStack Query cache when available
  */
 export const getJWT = async (): Promise<string> => {
-  // First, try to get from cache
+  // Check if we have cached appwrite user data first
+  const cachedAppwriteUser = queryClient.getQueryData(
+    appwriteUserQueryKeys.current(),
+  );
+
+  // If no cached user data, user is likely not authenticated
+  if (!cachedAppwriteUser) {
+    throw new Error("No active session");
+  }
+
+  // Try to get JWT from cache
   const cachedJWT = queryClient.getQueryData(jwtQueryKeys.current());
 
   if (cachedJWT) {
