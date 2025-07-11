@@ -10,11 +10,11 @@ export default function ActionButtons() {
   const { data: user, isLoading } = useCurrentUser();
 
   return (
-    <div className="flex gap-8 items-center">
+    <div className="flex gap-8 items-center justify-center lg:justify-start">
       {isLoading ? (
         <Spinner variant="wave" />
       ) : (
-        <>
+        <div className="flex gap-4 items-center justify-center flex-wrap">
           {user ? (
             <Link href="/explore">
               <Button
@@ -25,7 +25,7 @@ export default function ActionButtons() {
               </Button>
             </Link>
           ) : (
-            <Link href="/signup">
+            <Link href="https://forms.gle/ybJZ1dTinK3kdZqo6" target="_blank">
               <Button
                 color="primary"
                 className="pearl-button min-w-[220px] h-[56px] flex items-center justify-center"
@@ -38,13 +38,14 @@ export default function ActionButtons() {
             <Button
               color="secondary"
               variant="solid"
-              className="border border-gray-400 transition flex items-center min-w-[180px] ml-0 md:ml-0"
+              size="sm"
+              className="border border-gray-400 transition flex items-center ml-0"
             >
-              <FaGithub className="h-7 w-7" />
-              <span className="ml-2">Contribute</span>
+              <FaGithub size={20} />
+              <span>Contribute</span>
             </Button>
           </Link>
-        </>
+        </div>
       )}
     </div>
   );

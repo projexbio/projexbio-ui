@@ -6,15 +6,20 @@ import { HiOutlineMail } from "react-icons/hi";
 
 export default function Footer() {
   return (
-    <footer className="bg-black/90 text-white py-10 px-4">
+    <footer className="bg-black/90 text-white py-10 px-4 z-10">
       <div className="max-w-6xl mx-auto flex flex-col items-center justify-center gap-6">
         {/* Top Section: Logo and Contact closer and centered */}
-        <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center gap-8 w-full">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 w-full">
           {/* Left Section */}
-          <div className="flex items-center justify-center sm:justify-start space-x-4 text-center sm:text-left">
-            <Image src="/blackLogo.png" alt="Logo" width={60} height={60} />
+          <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start space-x-4 text-center sm:text-left">
+            <Image
+              src="/assets/logo/white-without-bg.png"
+              alt="Logo"
+              width={60}
+              height={60}
+            />
             <div>
-              <h1 className="font-blanka text-2xl sm:text-3xl font-bold">
+              <h1 className="mb-1 font-blanka text-2xl sm:text-3xl font-bold">
                 PROJEXBIO
               </h1>
               <p className="text-base sm:text-medium text-gray-300">
@@ -24,7 +29,7 @@ export default function Footer() {
           </div>
           {/* Right Section */}
           <div className="text-center sm:text-left sm:ml-24 mt-4 sm:mt-0">
-            <h3 className="font-bold text-2xl sm:text-3xl mb-1">Contact</h3>
+            <h3 className="font-bold text-2xl sm:text-3xl">Contact</h3>
             <div className="flex items-center justify-center sm:justify-start text-sm text-gray-300">
               <HiOutlineMail className="mr-2 text-2xl" />
               <a
@@ -45,7 +50,7 @@ export default function Footer() {
           >
             Meet ProjexBio Team
           </Link>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+          <div className="flex flex-row flex-wrap items-center justify-center gap-2">
             <p className="text-sm text-gray-300 mb-0 flex items-center">
               Product by{" "}
               <span className="text-white font-medium mx-1">@SailingSam :</span>

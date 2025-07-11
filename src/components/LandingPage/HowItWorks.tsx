@@ -10,7 +10,7 @@ const steps = [
       "<strong>Students:</strong> Choose/Req your institute & create your project portfolio.",
       "<strong>Faculty:</strong> Create an educator account, verify your college, and control your institute.",
     ],
-    image: "/features/signup.svg",
+    image: "/assets/features/signup.svg",
   },
   {
     step: "02",
@@ -19,7 +19,7 @@ const steps = [
       "<strong>Students:</strong> Add your projects with title, description, GitHub link, tech stack—you'll also mark if you're 'looking for contributors.'",
       "<strong>Faculty:</strong> Create assignment hubs or contest pages, with details & deadlines.",
     ],
-    image: "/features/build.svg",
+    image: "/assets/features/build.svg",
   },
   {
     step: "03",
@@ -28,7 +28,7 @@ const steps = [
       "<strong>Students:</strong> Invite peers to contribute or discover projects looking for help.",
       "<strong>Faculty:</strong> Students submit to your hub—view submissions in one place, provide feedback or status updates.",
     ],
-    image: "/howitworks/review.png",
+    image: "/assets/features/review.png",
   },
   {
     step: "04",
@@ -41,13 +41,19 @@ const steps = [
   },
 ];
 
-export default function HowItWorks({ id = "how-it-works" }) {
+export default function HowItWorks() {
   return (
     <section
-      id={id}
-      className="pt-12 pb-16 px-4 sm:px-8 bg-[#f5f5f5]"
-      style={{ scrollMarginTop: "2.5rem" }}
+      id="how-it-works"
+      className="container mx-auto px-4 sm:px-8 relative"
     >
+      <Image
+        src="/assets/landingPageGraphics/4.svg"
+        alt="ProjexBio"
+        width={400}
+        height={400}
+        className="absolute -top-14 -left-10 object-cover z-0 opacity-50 w-64 h-64 lg:w-80 lg:h-80"
+      />
       <div className="max-w-6xl mx-auto text-center mb-12">
         <h2 className="font-norwester text-3xl md:text-5xl font-bold text-black mb-3">
           How It Works?

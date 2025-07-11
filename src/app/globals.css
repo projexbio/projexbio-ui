@@ -136,6 +136,8 @@ body {
   font-display: swap;
 }
 
+/* TODO: instead of url font, use font-family or download the font and use it */
+
 @font-face {
   font-family: "Norwester";
   src: url("/fonts/Norwester-eRV6.otf") format("opentype");

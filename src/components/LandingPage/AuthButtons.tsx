@@ -35,17 +35,18 @@ const AuthButtons = () => {
           <div className="flex gap-2">
             <Link href="/signup">
               <Button
-                variant="solid"
-                color="secondary"
-                className="px-4 py-2 font-semibold text-sm rounded-large transition"
+                variant="bordered"
+                color="primary"
+                className="hidden md:flex text-default font-semibold text-sm rounded-lg"
               >
-                Join Now
+                Sign Up
               </Button>
             </Link>
             <Link href="/login">
               <Button
                 variant="solid"
-                className="px-4 py-2 bg-primary text-white text-sm font-semibold rounded-b-large hover:bg-brand-blue transition"
+                color="primary"
+                className="text-white font-semibold rounded-lg"
               >
                 Log In
               </Button>
