@@ -48,7 +48,7 @@ export default function HowItWorks() {
       className="container mx-auto px-4 sm:px-8 relative"
     >
       <Image
-        src="/assets/landingPageGraphics/4.svg"
+        src="/assets/LandingPageGraphics/4.svg"
         alt="ProjexBio"
         width={400}
         height={400}

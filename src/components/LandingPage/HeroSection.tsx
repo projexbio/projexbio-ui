@@ -6,14 +6,14 @@ export default function HeroSection() {
     <div className="bg-black -mt-16 ">
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 pt-24 md:pt-32 pb-10 md:pb-16 relative overflow-hidden">
         <Image
-          src="/assets/landingPageGraphics/1.svg"
+          src="/assets/LandingPageGraphics/1.svg"
           alt="ProjexBio"
           width={800}
           height={800}
           className="absolute top-0 left-0 object-cover z-0 opacity-50 w-[480px] h-[480px] sm:w-[500px] sm:h-[500px] md:w-[600px] md:h-[600px] lg:w-[700px] lg:h-[700px]"
         />
         <Image
-          src="/assets/landingPageGraphics/2.svg"
+          src="/assets/LandingPageGraphics/2.svg"
           alt="ProjexBio"
           width={700}
           height={700}

@@ -35,7 +35,7 @@ export default function Features() {
       className="container mx-auto px-4 sm:px-6 lg:px-8 relative"
     >
       <Image
-        src="/assets/landingPageGraphics/3.svg"
+        src="/assets/LandingPageGraphics/3.svg"
         alt="ProjexBio"
         width={400}
         height={400}

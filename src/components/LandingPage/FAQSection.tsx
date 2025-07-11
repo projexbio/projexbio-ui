@@ -50,7 +50,7 @@ export default function FAQSection() {
         {Array.from({ length: 2 }).map((_, index) => (
           <Image
             key={index}
-            src="/assets/landingPageGraphics/5.svg"
+            src="/assets/LandingPageGraphics/5.svg"
             alt="ProjexBio"
             width={500}
             height={500}
