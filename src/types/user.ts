@@ -46,6 +46,36 @@ export interface OnboardingResponse {
   message: string;
 }
 
+// Skill interface
+export interface Skill {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+// Social link interface
+export interface SocialLink {
+  platform: string;
+  url: string;
+}
+
+// College interface for user's college details
+export interface College {
+  collegeId: string;
+  name: string;
+  slug: string;
+  userType: 'STUDENT' | 'FACULTY' | 'GENERAL';
+  isAdmin: boolean;
+  degreeType?: string;
+  branch?: string;
+  verified: boolean;
+  joinedAt: string;
+  leftAt?: string;
+  collegeEmail: string;
+  designation?: string;
+  logoUrl?: string;
+}
+
 // Main User interface for authenticated users
 export interface User {
   id: string;
@@ -63,4 +93,11 @@ export interface User {
   authProvider?: string;
   createdAt: string;
   updatedAt: string;
+  // New fields from backend
+  tagline?: string;
+  bio?: string;
+  resume?: string;
+  skills?: Skill[];
+  socialLinks?: SocialLink[];
+  colleges?: College[];
 }
