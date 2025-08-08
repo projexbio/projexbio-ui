@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, Avatar, Badge } from "@heroui/react";
+import { Card, CardBody, Avatar, Badge, Chip, Button } from "@heroui/react";
 import { FaEnvelope, FaGlobe, FaFileAlt, FaLinkedin, FaGithub, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
 import { User } from "@/types/user";
 
@@ -51,18 +51,18 @@ export default function Profile({ user }: ProfileProps) {
             <div className="flex-1 space-y-3">
               <div className="flex flex-col md:flex-row md:items-center gap-2">
                 <h1 className="text-2xl font-bold text-foreground">
-                  {user.firstName} {user.lastName}
+                  {user.firstName} {user.middleName} {user.lastName}
                 </h1>
                 {user.isSuperAdmin && (
-                  <Badge color="danger" variant="flat" size="sm">
+                  <Chip color="danger" variant="flat" size="sm">
                     Super Admin
-                  </Badge>
+                  </Chip>
                 )}
               </div>
               
               {/* Tagline */}
               {user.tagline ? (
-                <p className="text-lg text-primary-600 font-medium">
+                <p className="text-lg text-secondary font-medium">
                   {user.tagline}
                 </p>
               ) : (
@@ -73,7 +73,7 @@ export default function Profile({ user }: ProfileProps) {
               
               {/* Bio */}
               {user.bio ? (
-                <p className="text-default-700 text-sm leading-relaxed">
+                <p className="text-default-600 text-sm leading-relaxed">
                   {user.bio}
                 </p>
               ) : (
@@ -116,7 +116,7 @@ export default function Profile({ user }: ProfileProps) {
               <h3 className="text-sm font-semibold text-default-700 mb-3">Contact & Links</h3>
               <div className="space-y-3">
                 <div className="flex items-center gap-2 text-sm">
-                  <FaEnvelope className="text-primary-600" />
+                  <FaEnvelope className="text-primary" />
                   <span>{user.email}</span>
                 </div>
                 {user.websiteUrl && (
@@ -156,19 +156,20 @@ export default function Profile({ user }: ProfileProps) {
             {/* Right Column - Social Links */}
             <div className="md:w-1/2">
               <h3 className="text-sm font-semibold text-default-700 mb-3">Social Links</h3>
-              {user.socialLinks && user.socialLinks.length > 0 ? (
+                  {user.socialLinks && user.socialLinks.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
                   {user.socialLinks.map((social, index) => (
-                    <a
-                      key={index}
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg border hover:border-primary-300 hover:bg-primary-50 transition-colors text-sm"
+                   <Button
+                        key={index}
+                        variant="ghost"
+                        size="sm"
+                        color="primary"
+                        className="flex items-center gap-2 px-2 py-2 transition-colors"
+                        onPress={() => window.open(social.url, "_blank", "noopener,noreferrer")}
                     >
                       {getSocialIcon(social.platform)}
                       <span className="font-medium capitalize">{social.platform}</span>
-                    </a>
+                    </Button>
                   ))}
                 </div>
               ) : (
