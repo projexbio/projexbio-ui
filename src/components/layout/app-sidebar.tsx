@@ -12,10 +12,13 @@ import {
   FaUsers,
   FaPlus,
   FaCog,
+  FaUser,
 } from "react-icons/fa";
 import { FiHome } from "react-icons/fi";
 import { useLogout } from "@/lib/query/useAppwriteUser";
+import { useCurrentUser } from "@/lib/query/useCurrentUser";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import {
   Sidebar,
@@ -58,7 +61,13 @@ const applicationItems = [
   },
 ];
 
-const userItems = [
+// Dynamic user items that depend on user data
+const getUserItems = (username?: string) => [
+  {
+    title: "Profile",
+    url: username ? `/${username}` : "/profile",
+    icon: FaUser,
+  },
   {
     title: "My Projects",
     url: "#",
@@ -110,6 +119,33 @@ type FooterItem =
 export function AppSidebar() {
   const { toggleSidebar, state } = useSidebar();
   const { mutate: logout, isPending: isLoggingOut } = useLogout();
+  const {
+    data: user,
+    isLoading: userLoading,
+    error: userError,
+  } = useCurrentUser();
+  const pathname = usePathname();
+
+  // Function to check if a menu item is active
+  const isActive = (url: string) => {
+    if (url === "#" || url === "/#") return false;
+    if (url === pathname) return true;
+    
+    // Special handling for profile routes (username pages)
+    if (user?.username && url === `/${user.username}` && pathname === `/${user.username}`) {
+      return true;
+    }
+    
+    // Handle nested routes - check if current path starts with the menu item path
+    // but avoid matching "/" with everything
+    if (url !== "/" && url.length > 1 && pathname.startsWith(url + "/")) {
+      return true;
+    }
+    
+    return false;
+  };
+  
+  const userItems = getUserItems(user?.username);
 
   const footerItems: FooterItem[] = [
     {
@@ -149,7 +185,6 @@ export function AppSidebar() {
             <SidebarMenuButton
               onClick={toggleSidebar}
               tooltip="Toggle Sidebar"
-              className="bg-default-200"
             >
               {state === "expanded" ? (
                 <LuPanelLeftClose className="text-lg font-bold" />
@@ -168,7 +203,11 @@ export function AppSidebar() {
             <SidebarMenu>
               {applicationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title}>
+                  <SidebarMenuButton 
+                    asChild 
+                    tooltip={item.title}
+                    className={isActive(item.url) ? "bg-default-200" : ""}
+                  >
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -185,12 +224,42 @@ export function AppSidebar() {
             <SidebarMenu>
               {userItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title}>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
+                  {item.title === "Profile" ? (
+                    <SidebarMenuButton 
+                      asChild={!userLoading && !userError && !!user?.username}
+                      tooltip={userLoading ? "Loading..." : userError ? "Profile unavailable" : item.title}
+                      className={
+                        userLoading || userError || !user?.username 
+                          ? "opacity-50 cursor-not-allowed" 
+                          : isActive(item.url) 
+                            ? "bg-default-200" 
+                            : ""
+                      }
+                    >
+                      {!userLoading && !userError && user?.username ? (
+                        <Link href={item.url}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </Link>
+                      ) : (
+                        <>
+                          <item.icon />
+                          <span>{userLoading ? "Loading..." : userError ? "Profile unavailable" : item.title}</span>
+                        </>
+                      )}
+                    </SidebarMenuButton>
+                  ) : (
+                    <SidebarMenuButton 
+                      asChild 
+                      tooltip={item.title}
+                      className={isActive(item.url) ? "bg-default-200" : ""}
+                    >
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
@@ -202,7 +271,11 @@ export function AppSidebar() {
             <SidebarMenu>
               {facultyTools.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title}>
+                  <SidebarMenuButton 
+                    asChild 
+                    tooltip={item.title}
+                    className={isActive(item.url) ? "bg-default-200" : ""}
+                  >
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -222,7 +295,7 @@ export function AppSidebar() {
                 <SidebarMenuButton
                   asChild
                   tooltip={item.tooltip ?? item.title}
-                  className={item.className}
+                  className={`${item.className || ""} ${isActive(item.url) ? "bg-default-200" : ""}`}
                 >
                   <Link href={item.url}>
                     <item.icon />
